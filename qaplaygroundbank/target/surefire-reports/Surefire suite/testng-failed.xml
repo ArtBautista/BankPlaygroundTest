@@ -9,9 +9,9 @@
           <include name="testBillPayQA"/>
           <include name="testTransferMoneyQA"/>
           <include name="testTransactionsQA"/>
+          <include name="testDashboardHeaderIsDisplayed"/>
           <include name="setUp"/>
           <include name="testSendMoneyQA"/>
-          <include name="testApplyLoanQA"/>
           <include name="tearDown"/>
         </methods>
       </class> <!-- DashboardTests -->
