@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Surefire suite]" verbose="0">
+  <test thread-count="5" name="Surefire test(failed)" verbose="0">
+    <classes>
+      <class name="DashboardTests">
+        <methods>
+          <include name="goToLoginPage"/>
+          <include name="testBillPayQA"/>
+          <include name="testTransferMoneyQA"/>
+          <include name="testTransactionsQA"/>
+          <include name="setUp"/>
+          <include name="testSendMoneyQA"/>
+          <include name="testApplyLoanQA"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- DashboardTests -->
+    </classes>
+  </test> <!-- Surefire test(failed) -->
+</suite> <!-- Failed suite [Surefire suite] -->
