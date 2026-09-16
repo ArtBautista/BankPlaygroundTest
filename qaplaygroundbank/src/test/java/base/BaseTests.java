@@ -1,5 +1,6 @@
 package base;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -25,17 +26,20 @@ public class BaseTests {
         
     }
 
-     @BeforeMethod
+    @BeforeMethod
     public void goToLoginPage(){
-        driver.get(BASE_URL);
+        driver.get(BASE_URL); // navigate first so JS execution has a matching origin
+        ((JavascriptExecutor) driver).executeScript("window.localStorage.clear(); window.sessionStorage.clear();");
+        driver.manage().deleteAllCookies();
+        driver.get(BASE_URL); // reload to actually land on login page now that session is cleared
         basePage = new BasePage();
         basePage.setDriver(driver);
         loginPage = new LoginPage();
+        dashboardPage = new DashboardPage();
     }
-    
     @AfterClass 
     public void tearDown(){
-        delay(1000);
+        delay(3000);
         driver.quit();
     }
 }
