@@ -5,14 +5,10 @@ import org.openqa.selenium.By;
 import base.BasePage;
 
 public class DashboardPage extends BasePage {
-        
-    private By welcomeMessage = By.xpath("//*[@data-testid='dashboard-welcome-message']");
-    private final By transferMoneyButton = By.cssSelector("[data-testid='quick-action-transfer']");
-    private final By sendMoneyButton = By.cssSelector("[data-testid='quick-action-send-money']");
-    private final By billPayButton = By.cssSelector("[data-testid='quick-action-bill-pay']");
-    private final By applyLoanButton = By.cssSelector("[data-testid='quick-action-apply-loan']");
-    private final By transactionsButton = By.cssSelector("[data-testid='quick-action-transactions']");
 
+    private static final By WELCOME_MESSAGE = By.cssSelector("[data-testid='dashboard-welcome-message']");
+    private static final By LOGOUT_BUTTON = By.cssSelector("[data-testid='topbar-logout-btn']");
+    private static final By NOTIFICATION_BUTTON = By.cssSelector("[data-testid='nav-notifications-link']");
 
     public enum QuickAction {
         TRANSFER("quick-action-transfer"),
@@ -32,12 +28,42 @@ public class DashboardPage extends BasePage {
         }
     }
 
+    public enum PageTitle {
+        NOTIFICATIONS("notifications-page-title"),
+        TRANSFER("transfer-page-title"),
+        ACCOUNTS("accounts-page-title"),
+        BILL_PAY("bill-pay-page-title"),
+        TRANSACTIONS("transactions-page-title"),
+        APPLY_LOAN("apply-loan-title");
+
+        private final String testId;
+
+        PageTitle(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
+    }
+
     public void clickQuickAction(QuickAction action) {
         click(action.locator());
     }
 
-     public boolean  getWelcomeMessage(){
-        return find(welcomeMessage).isDisplayed();
+    public void clickNotificationButton() {
+        click(NOTIFICATION_BUTTON);
     }
-    
+
+    public void clickLogoutButton() {
+        click(LOGOUT_BUTTON);
+    }
+
+    public boolean isWelcomeMessageDisplayed() {
+        return isDisplayed(WELCOME_MESSAGE);
+    }
+
+    public boolean isPageTitleDisplayed(PageTitle title) {
+        return isDisplayed(title.locator());
+    }
 }
