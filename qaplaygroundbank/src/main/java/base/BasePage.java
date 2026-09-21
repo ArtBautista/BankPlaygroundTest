@@ -47,4 +47,12 @@ public class BasePage {
             exc.printStackTrace();
         }
     }
+
+    protected boolean isDisplayed(By locator) {
+    try {
+        return find(locator).isDisplayed();
+    } catch (Exception e) {
+        return false;
+    }
+}
 }
