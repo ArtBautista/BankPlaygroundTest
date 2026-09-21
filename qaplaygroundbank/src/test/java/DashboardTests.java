@@ -1,56 +1,51 @@
-
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import base.BaseTests;
 import pages.DashboardPage;
-
+import pages.DashboardPage.QuickAction;
 
 public class DashboardTests extends BaseTests {
 
-    
-    
-    @Test 
-    public void testDashboardHeaderIsDisplayed(){
-        DashboardPage dashboardPage = loginPage.logIntoApplication("standard_user","bank_sauce");
-        Assert.assertTrue(dashboardPage.getWelcomeMessage(),
-        "\n Dashboard is not displayed \n");  
+    @BeforeMethod
+    public void loginAsStandardUser() {
+        loginPage.logIntoApplication("standard_user", "bank_sauce");
     }
 
-    @Test 
-    public void testLogoutButton(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickLogoutButton();     
-    }
-    
-    @Test 
-    public void testTransferMoneyQA(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickQuickAction(DashboardPage.QuickAction.TRANSFER);
+    @Test
+    public void testDashboardHeaderIsDisplayed() {
+        Assert.assertTrue(dashboardPage.isWelcomeMessageDisplayed(),
+                "Dashboard welcome message is not displayed");
     }
 
-    @Test 
-    public void testSendMoneyQA(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickQuickAction(DashboardPage.QuickAction.SEND_MONEY);
+    @Test
+    public void testNotificationButton() {
+        dashboardPage.clickNotificationButton();
+        Assert.assertTrue(dashboardPage.isPageTitleDisplayed(DashboardPage.PageTitle.NOTIFICATIONS),
+                "Notifications page title is not displayed");
     }
 
-    @Test 
-    public void testBillPayQA(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickQuickAction(DashboardPage.QuickAction.BILL_PAY);
+    @Test
+    public void testLogoutButton() {
+        dashboardPage.clickLogoutButton();
+        
     }
 
-    @Test 
-    public void testApplyLoanQA(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickQuickAction(DashboardPage.QuickAction.APPLY_LOAN);
+    @DataProvider(name = "quickActions")
+    public Object[][] quickActions() {
+        return new Object[][] {
+            { QuickAction.TRANSFER },
+            { QuickAction.SEND_MONEY },
+            { QuickAction.BILL_PAY },
+            { QuickAction.APPLY_LOAN },
+            { QuickAction.TRANSACTIONS }
+        };
     }
 
-    @Test 
-    public void testTransactionsQA(){
-        loginPage.logIntoApplication("standard_user","bank_sauce");
-        dashboardPage.clickQuickAction(DashboardPage.QuickAction.TRANSACTIONS);
+    @Test(dataProvider = "quickActions")
+    public void testQuickAction(QuickAction action) {
+        dashboardPage.clickQuickAction(action);
     }
-    
 }
