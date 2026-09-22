@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import static base.BasePage.delay;
+import pages.AccountsPage;
 import pages.DashboardPage;
 import pages.LoginPage;
 
@@ -17,6 +18,7 @@ public class BaseTests {
     protected BasePage basePage;
     protected LoginPage loginPage;
     protected DashboardPage dashboardPage;
+    protected AccountsPage accountsPage;
     private String BASE_URL = "https://qaplayground.com/bank/login";
 
     @BeforeClass 
@@ -36,6 +38,7 @@ public class BaseTests {
         basePage.setDriver(driver);
         loginPage = new LoginPage();
         dashboardPage = new DashboardPage();
+        accountsPage = new AccountsPage();
     }
     @AfterClass 
     public void tearDown(){
