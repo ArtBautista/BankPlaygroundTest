@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="DashboardTests" time="6.273" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="DashboardTests" time="19.212" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,9 +15,9 @@
     <property name="user.country" value="PH"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-26.0.2.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\noman\AppData\Local\Temp\surefire4448393144103823922\surefirebooter-20260916134729032_3.jar C:\Users\noman\AppData\Local\Temp\surefire4448393144103823922 2026-09-16T13-47-28_929-jvmRun1 surefire-20260916134729032_1tmp surefire_0-20260916134729032_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\noman\AppData\Local\Temp\surefire13450682905053466398\surefirebooter-20260921184856767_3.jar C:\Users\noman\AppData\Local\Temp\surefire13450682905053466398 2026-09-21T18-48-56_661-jvmRun1 surefire-20260921184856767_1tmp surefire_0-20260921184856767_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="DashboardTests#testLogoutButton"/>
+    <property name="test" value="DashboardTests"/>
     <property name="surefire.test.class.path" value="C:\Users\noman\SeleniumTest\JavaTests\QAPlayground\qaplaygroundbank\target\test-classes;C:\Users\noman\SeleniumTest\JavaTests\QAPlayground\qaplaygroundbank\target\classes;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-java\4.48.0\selenium-java-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-api\4.48.0\selenium-api-4.48.0.jar;C:\Users\noman\.m2\repository\org\jspecify\jspecify\1.0.1\jspecify-1.0.1.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-chrome-driver\4.48.0\selenium-chrome-driver-4.48.0.jar;C:\Users\noman\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-chromium-driver\4.48.0\selenium-chromium-driver-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-json\4.48.0\selenium-json-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-manager\4.48.0\selenium-manager-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-devtools-latest\4.48.0\selenium-devtools-latest-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v150\4.48.0\selenium-devtools-v150-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v151\4.48.0\selenium-devtools-v151-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-devtools-v152\4.48.0\selenium-devtools-v152-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-edge-driver\4.48.0\selenium-edge-driver-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-firefox-driver\4.48.0\selenium-firefox-driver-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-http\4.48.0\selenium-http-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-ie-driver\4.48.0\selenium-ie-driver-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-remote-driver\4.48.0\selenium-remote-driver-4.48.0.jar;C:\Users\noman\.m2\repository\com\google\guava\guava\33.6.0-jre\guava-33.6.0-jre.jar;C:\Users\noman\.m2\repository\com\google\guava\failureaccess\1.0.3\failureaccess-1.0.3.jar;C:\Users\noman\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\noman\.m2\repository\com\google\errorprone\error_prone_annotations\2.47.0\error_prone_annotations-2.47.0.jar;C:\Users\noman\.m2\repository\com\google\j2objc\j2objc-annotations\3.1\j2objc-annotations-3.1.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-api\1.65.0\opentelemetry-api-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-context\1.65.0\opentelemetry-context-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-common\1.65.0\opentelemetry-common-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-exporter-logging\1.65.0\opentelemetry-exporter-logging-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-common\1.65.0\opentelemetry-sdk-common-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure-spi\1.65.0\opentelemetry-sdk-extension-autoconfigure-spi-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-extension-autoconfigure\1.65.0\opentelemetry-sdk-extension-autoconfigure-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-trace\1.65.0\opentelemetry-sdk-trace-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk\1.65.0\opentelemetry-sdk-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-metrics\1.65.0\opentelemetry-sdk-metrics-1.65.0.jar;C:\Users\noman\.m2\repository\io\opentelemetry\opentelemetry-sdk-logs\1.65.0\opentelemetry-sdk-logs-1.65.0.jar;C:\Users\noman\.m2\repository\net\bytebuddy\byte-buddy\1.18.11\byte-buddy-1.18.11.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-os\4.48.0\selenium-os-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-safari-driver\4.48.0\selenium-safari-driver-4.48.0.jar;C:\Users\noman\.m2\repository\org\seleniumhq\selenium\selenium-support\4.48.0\selenium-support-4.48.0.jar;C:\Users\noman\.m2\repository\org\testng\testng\7.12.0\testng-7.12.0.jar;C:\Users\noman\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar;C:\Users\noman\.m2\repository\org\jcommander\jcommander\1.83\jcommander-1.83.jar;C:\Users\noman\.m2\repository\org\webjars\jquery\3.7.1\jquery-3.7.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\noman"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\noman\AppData\Local\Temp\surefire4448393144103823922\surefirebooter-20260916134729032_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\noman\AppData\Local\Temp\surefire13450682905053466398\surefirebooter-20260921184856767_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="26.0.2.1+1-7"/>
@@ -61,10 +61,19 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="testLogoutButton" classname="DashboardTests" time="1.343">
+  <testcase name="testDashboardHeaderIsDisplayed" classname="DashboardTests" time="1.042">
     <system-err><![CDATA[SLF4J(W): No SLF4J providers were found.
 SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Sep 21, 2026 6:48:58 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 153, returning the closest version; found: 152; Please update to a Selenium version that supports CDP version 153
 ]]></system-err>
   </testcase>
+  <testcase name="testLogoutButton" classname="DashboardTests" time="1.083"/>
+  <testcase name="testNotificationButton" classname="DashboardTests" time="1.613"/>
+  <testcase name="testQuickAction[TRANSFER](1)" classname="DashboardTests" time="1.084"/>
+  <testcase name="testQuickAction[SEND_MONEY](2)" classname="DashboardTests" time="1.088"/>
+  <testcase name="testQuickAction[BILL_PAY](3)" classname="DashboardTests" time="1.091"/>
+  <testcase name="testQuickAction[APPLY_LOAN](4)" classname="DashboardTests" time="1.07"/>
+  <testcase name="testQuickAction[TRANSACTIONS](5)" classname="DashboardTests" time="1.069"/>
 </testsuite>

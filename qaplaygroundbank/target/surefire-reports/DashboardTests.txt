@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: DashboardTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.273 s -- in DashboardTests
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.21 s -- in DashboardTests
