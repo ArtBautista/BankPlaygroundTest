@@ -1,152 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="8" passed="8" failed="0" skipped="0">
+<testng-results ignored="1" total="4" passed="3" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-09-21T18:48:57 PST" name="Surefire suite" finished-at="2026-09-21T18:49:16 PST" duration-ms="18900">
+  <suite started-at="2026-09-23T20:21:20 PST" name="Surefire suite" finished-at="2026-09-23T20:21:33 PST" duration-ms="13112">
     <groups>
     </groups>
-    <test started-at="2026-09-21T18:48:57 PST" name="Surefire test" finished-at="2026-09-21T18:49:16 PST" duration-ms="18900">
-      <class name="DashboardTests">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:48:57 PST" name="setUp" finished-at="2026-09-21T18:48:58 PST" duration-ms="906" status="PASS">
+    <test started-at="2026-09-23T20:21:20 PST" name="Surefire test" finished-at="2026-09-23T20:21:33 PST" duration-ms="13112">
+      <class name="AccountsTests">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:20 PST" name="setUp" finished-at="2026-09-23T20:21:21 PST" duration-ms="932" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:48:58 PST" name="goToLoginPage" finished-at="2026-09-21T18:48:58 PST" duration-ms="473" status="PASS">
+        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:21 PST" name="goToLoginPage" finished-at="2026-09-23T20:21:22 PST" duration-ms="1122" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:48:58 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:48:58 PST" duration-ms="291" status="PASS">
+        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:22 PST" name="loginAsStandardUser" finished-at="2026-09-23T20:21:23 PST" duration-ms="1265" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testDashboardHeaderIsDisplayed()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:48:58 PST" name="testDashboardHeaderIsDisplayed" finished-at="2026-09-21T18:48:59 PST" duration-ms="1042" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testDashboardHeaderIsDisplayed -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:48:59 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:00 PST" duration-ms="409" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:00 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:00 PST" duration-ms="224" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testLogoutButton()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:00 PST" name="testLogoutButton" finished-at="2026-09-21T18:49:01 PST" duration-ms="1082" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testLogoutButton -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:01 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:02 PST" duration-ms="390" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:02 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:02 PST" duration-ms="262" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testNotificationButton()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:02 PST" name="testNotificationButton" finished-at="2026-09-21T18:49:03 PST" duration-ms="1613" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testNotificationButton -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:03 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:04 PST" duration-ms="467" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:04 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:04 PST" duration-ms="268" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testQuickAction(pages.DashboardPage$QuickAction)[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:04 PST" name="testQuickAction" data-provider="quickActions" finished-at="2026-09-21T18:49:05 PST" duration-ms="1084" status="PASS">
+        <test-method signature="testAccountCredentials(pages.AccountsPage$AccountInformation,pages.AccountsPage$AccountDetails)[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:23 PST" name="testAccountCredentials" data-provider="accountCredentials" finished-at="2026-09-23T20:21:24 PST" duration-ms="1080" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[TRANSFER]]>
+                <![CDATA[ACCOUNT_NAME]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[ACCOUNT_DETAILS_NAME]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testQuickAction -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:05 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:06 PST" duration-ms="452" status="PASS">
+        </test-method> <!-- testAccountCredentials -->
+        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:24 PST" name="goToLoginPage" finished-at="2026-09-23T20:21:24 PST" duration-ms="393" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:06 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:06 PST" duration-ms="280" status="PASS">
+        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:24 PST" name="loginAsStandardUser" finished-at="2026-09-23T20:21:26 PST" duration-ms="1268" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testQuickAction(pages.DashboardPage$QuickAction)[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:06 PST" name="testQuickAction" data-provider="quickActions" finished-at="2026-09-21T18:49:07 PST" duration-ms="1087" status="PASS">
+        <test-method signature="testAccountCredentials(pages.AccountsPage$AccountInformation,pages.AccountsPage$AccountDetails)[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:26 PST" name="testAccountCredentials" data-provider="accountCredentials" finished-at="2026-09-23T20:21:27 PST" duration-ms="1072" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[SEND_MONEY]]>
+                <![CDATA[ACCOUNT_TYPE]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[ACCOUNT_DETAILS_TYPE]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testQuickAction -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:07 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:07 PST" duration-ms="386" status="PASS">
+        </test-method> <!-- testAccountCredentials -->
+        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:27 PST" name="goToLoginPage" finished-at="2026-09-23T20:21:27 PST" duration-ms="473" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:07 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:08 PST" duration-ms="271" status="PASS">
+        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:27 PST" name="loginAsStandardUser" finished-at="2026-09-23T20:21:29 PST" duration-ms="1297" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testQuickAction(pages.DashboardPage$QuickAction)[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:08 PST" name="testQuickAction" data-provider="quickActions" finished-at="2026-09-21T18:49:09 PST" duration-ms="1091" status="PASS">
+        <test-method signature="testAccountCredentials(pages.AccountsPage$AccountInformation,pages.AccountsPage$AccountDetails)[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:29 PST" name="testAccountCredentials" data-provider="accountCredentials" finished-at="2026-09-23T20:21:30 PST" duration-ms="1069" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[BILL_PAY]]>
+                <![CDATA[ACCOUNT_BALANCE]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[ACCOUNT_DETAILS_BALANCE]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testQuickAction -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:09 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:09 PST" duration-ms="423" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:09 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:10 PST" duration-ms="266" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testQuickAction(pages.DashboardPage$QuickAction)[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:10 PST" name="testQuickAction" data-provider="quickActions" finished-at="2026-09-21T18:49:11 PST" duration-ms="1069" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[APPLY_LOAN]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testQuickAction -->
-        <test-method is-config="true" signature="goToLoginPage()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:11 PST" name="goToLoginPage" finished-at="2026-09-21T18:49:11 PST" duration-ms="469" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- goToLoginPage -->
-        <test-method is-config="true" signature="loginAsStandardUser()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:11 PST" name="loginAsStandardUser" finished-at="2026-09-21T18:49:11 PST" duration-ms="296" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- loginAsStandardUser -->
-        <test-method signature="testQuickAction(pages.DashboardPage$QuickAction)[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:11 PST" name="testQuickAction" data-provider="quickActions" finished-at="2026-09-21T18:49:12 PST" duration-ms="1071" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[TRANSACTIONS]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testQuickAction -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:DashboardTests@358c99f5]" started-at="2026-09-21T18:49:12 PST" name="tearDown" finished-at="2026-09-21T18:49:16 PST" duration-ms="3189" status="PASS">
+        </test-method> <!-- testAccountCredentials -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:AccountsTests@3d299e3]" started-at="2026-09-23T20:21:30 PST" name="tearDown" finished-at="2026-09-23T20:21:33 PST" duration-ms="3115" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- DashboardTests -->
+      </class> <!-- AccountsTests -->
     </test> <!-- Surefire test -->
   </suite> <!-- Surefire suite -->
 </testng-results>

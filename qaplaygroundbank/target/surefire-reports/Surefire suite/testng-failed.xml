@@ -3,14 +3,15 @@
 <suite name="Failed suite [Surefire suite]" verbose="0">
   <test thread-count="5" name="Surefire test(failed)" verbose="0">
     <classes>
-      <class name="DashboardTests">
+      <class name="AccountsTests">
         <methods>
           <include name="goToLoginPage"/>
-          <include name="testNotifcationButton"/>
+          <include name="loginAsStandardUser"/>
+          <include name="testInformationFeilds"/>
           <include name="setUp"/>
           <include name="tearDown"/>
         </methods>
-      </class> <!-- DashboardTests -->
+      </class> <!-- AccountsTests -->
     </classes>
   </test> <!-- Surefire test(failed) -->
 </suite> <!-- Failed suite [Surefire suite] -->
