@@ -2,6 +2,7 @@
 package base;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -49,10 +50,13 @@ public class BasePage {
     }
 
     protected boolean isDisplayed(By locator) {
-    try {
-        return find(locator).isDisplayed();
-    } catch (Exception e) {
-        return false;
+        try {
+            return find(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }  
     }
-}
+    public List<WebElement> findAll(By locator) {
+        return driver.findElements(locator);
+    }
 }
