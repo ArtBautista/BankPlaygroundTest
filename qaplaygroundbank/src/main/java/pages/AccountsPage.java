@@ -5,26 +5,75 @@ import org.openqa.selenium.By;
 import base.BasePage;
 
 public class AccountsPage extends BasePage{
-    private static final By ADD_ACCOUNT_BUTTON = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By ACCOUNT_TITLE = By.cssSelector("[data-testid='accounts-page-title']");
-    private static final By ACCOUNT_NAME = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By ACCOUNT_TYPE = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By ACCOUNT_BALANCE = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By ACCOUNT_STATUS = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By VIEW_ACTIONS_BUTTONS = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By EDIT_ACTIONS_BUTTONS = By.cssSelector("[data-testid='add-account-btn']");
-    private static final By REMOVE_ACTIONS_BUTTONS = By.cssSelector("[data-testid='add-account-btn']");
 
-    private static final By SIDEBAR_ACCOUNTS_BUTTON = By.cssSelector("[data-testid='sidebar-link-accounts']");
+    public enum AccountButtons {
+        SIDEBAR_ACCOUNTS_BUTTON("sidebar-link-accounts"),
+        ADD_ACTIONS_BUTTON("add-account-btn"),
+        VIEW_ACTIONS_BUTTON("view-account-btn"),
+        EDIT_ACTIONS_BUTTON("edit-account-btn");
+        //REMOVE_ACTIONS_BUTTON("quick-action-bill-pay");
+        
 
-    public void clickSidebarAccountsButton(){
-        click(SIDEBAR_ACCOUNTS_BUTTON);
+        private final String testId;
+
+        AccountButtons(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
     }
 
-    public boolean isAccountsHeaderDisplayed(){
-        return isDisplayed(ACCOUNT_TITLE);
+    public enum AccountInformation {
+        ACCOUNT_TITLE("accounts-page-title"),
+        ACCOUNT_NAME("account-row-name"),
+        ACCOUNT_TYPE("account-row-type-badge"),
+        ACCOUNT_BALANCE("account-row-balance");
+        //ACCOUNT_STATUS("accounts-status");
+
+        private final String testId;
+
+        AccountInformation(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
     }
 
+    public enum AccountDetails {
+        ACCOUNT_DETAILS_NAME("account-detail-name"),
+        ACCOUNT_DETAILS_TYPE("account-detail-type-badge"),
+        ACCOUNT_DETAILS_BALANCE("account-detail-balance");
+        //ACCOUNT_STATUS("accounts-status");
+
+        private final String testId;
+
+        AccountDetails(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
+    }
+
+    public void clickAccountButtons(AccountButtons action) {
+        click(action.locator());
+    }
     
+    public boolean isAccountsHeaderDisplayed(){
+        return isDisplayed(AccountInformation.ACCOUNT_NAME.locator());
+    }
+
+    public String checkAccountDetails(AccountDetails details){
+       return find(details.locator()).getText();
+    }
+
+    public String checkAccountInformation(AccountInformation info){
+       return find(info.locator()).getText();
+    }
 
 }
