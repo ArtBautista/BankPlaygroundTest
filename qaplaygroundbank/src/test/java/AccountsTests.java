@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import base.BaseTests;
 import pages.AccountsPage;
 import pages.AccountsPage.AccountButtons;
+import pages.AccountsPage.AccountInformation;
 
 public class AccountsTests extends BaseTests {
 
@@ -32,15 +33,26 @@ public class AccountsTests extends BaseTests {
     }
    
     @Test(dataProvider = "accountCredentials")
-    public void testAccountCredentials(AccountsPage.AccountInformation information, AccountsPage.AccountDetails details) {
-        String listValue = accountsPage.checkAccountInformation(information);
-        System.out.println("INFORMATION: " + listValue);
-        accountsPage.clickAccountButtons(AccountsPage.AccountButtons.VIEW_ACTIONS_BUTTON);
-        String detailValue = accountsPage.checkAccountDetails(details);
-        System.out.println("DETAILS: " + detailValue);
-        Assert.assertEquals(detailValue, listValue);
+        public void testAccountCredentials(AccountsPage.AccountInformation information, AccountsPage.AccountDetails details) {
+            String listValue = accountsPage.checkAccountInformation(information);
+            System.out.println("INFORMATION: " + listValue);
+            accountsPage.clickAccountButtons(AccountButtons.VIEW_ACTIONS_BUTTON);
+            String detailValue = accountsPage.checkAccountDetails(details);
+            System.out.println("DETAILS: " + detailValue);
+            Assert.assertEquals(detailValue, listValue);
     }
-
+    //Add New Account Test
+    @Test 
+    public void testAddNewAccount(){
+        accountsPage.clickAccountButtons(AccountButtons.ADD_ACTIONS_BUTTON);
+        accountsPage.createAccount("Art E",AccountsPage.AccountType.CREDIT_TYPE,"2210.50");
+        
+//        Assert.assertEquals("Art E", accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_NAME));
+        System.out.println("TYPE: " + AccountInformation.ACCOUNT_TYPE);
+//        Assert.assertEquals("Savings", accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_TYPE));
+        System.out.println("BALANCE: " + AccountInformation.ACCOUNT_BALANCE);
+//        Assert.assertTrue(accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_BALANCE).contains("2210.50"));
+    }
 
     
 }
