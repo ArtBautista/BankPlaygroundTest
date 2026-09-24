@@ -6,6 +6,12 @@ import base.BasePage;
 
 public class AccountsPage extends BasePage{
 
+    private By accountNameField = By.id("account-form-name");
+    private By accountBalanceField = By.cssSelector("input[name='account_balance_field']");
+    private By accountTypeField = By.cssSelector("[data-testid='account-form-type-select']");
+    private By accountAcceptField = By.cssSelector("[data-testid='account-form-accept-terms-checkbox']");
+    private By accountAddAccountButton = By.cssSelector("[data-testid='save-account-form-btn']");
+   
     public enum AccountButtons {
         SIDEBAR_ACCOUNTS_BUTTON("sidebar-link-accounts"),
         ADD_ACTIONS_BUTTON("add-account-btn"),
@@ -60,6 +66,24 @@ public class AccountsPage extends BasePage{
         }
     }
 
+    public enum AccountType {
+        CHECKING_TYPE("checking"),
+        SAVINGS_TYPE("savings"),
+        CREDIT_TYPE("credit");
+        //REMOVE_ACTIONS_BUTTON("quick-action-bill-pay");
+        
+
+        private final String testId;
+
+        AccountType(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='account-form-type-option'][data-account-type='" + testId + "']");
+        }
+    }
+
     public void clickAccountButtons(AccountButtons action) {
         click(action.locator());
     }
@@ -74,6 +98,22 @@ public class AccountsPage extends BasePage{
 
     public String checkAccountInformation(AccountInformation info){
        return find(info.locator()).getText();
+    }
+
+    private void selectAccountType(AccountType type) {
+        click(accountTypeField);
+        click(type.locator());
+    }
+    
+    public void enterAccountDetails(String name, AccountType type,String balance){
+        set(accountNameField, name);
+        selectAccountType(type);
+        set(accountBalanceField, balance);   
+    }
+    public void createAccount(String name, AccountType type, String balance) {
+        enterAccountDetails(name, type, balance);
+        click(accountAcceptField);
+        click(accountAddAccountButton);
     }
 
 }
