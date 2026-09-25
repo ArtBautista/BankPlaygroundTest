@@ -1,6 +1,10 @@
 package pages;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import base.BasePage;
 
@@ -11,7 +15,8 @@ public class AccountsPage extends BasePage{
     private By accountTypeField = By.cssSelector("[data-testid='account-form-type-select']");
     private By accountAcceptField = By.cssSelector("[data-testid='account-form-accept-terms-checkbox']");
     private By accountAddAccountButton = By.cssSelector("[data-testid='save-account-form-btn']");
-   
+    private By accountTable = By.xpath("[data-testid='accounts-row']");
+
     public enum AccountButtons {
         SIDEBAR_ACCOUNTS_BUTTON("sidebar-link-accounts"),
         ADD_ACTIONS_BUTTON("add-account-btn"),
@@ -92,6 +97,13 @@ public class AccountsPage extends BasePage{
         return isDisplayed(AccountInformation.ACCOUNT_NAME.locator());
     }
 
+    public List<String> getAllAccountRows() {
+        List<WebElement> rows = driver.findElements(accountTable);
+        return rows.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+    
     public String checkAccountDetails(AccountDetails details){
        return find(details.locator()).getText();
     }

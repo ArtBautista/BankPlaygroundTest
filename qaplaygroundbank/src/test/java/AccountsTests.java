@@ -1,4 +1,6 @@
 
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -7,7 +9,6 @@ import org.testng.annotations.Test;
 import base.BaseTests;
 import pages.AccountsPage;
 import pages.AccountsPage.AccountButtons;
-import pages.AccountsPage.AccountInformation;
 
 public class AccountsTests extends BaseTests {
 
@@ -42,17 +43,28 @@ public class AccountsTests extends BaseTests {
             Assert.assertEquals(detailValue, listValue);
     }
     //Add New Account Test
-    @Test 
-    public void testAddNewAccount(){
+    @Test
+    public void testAddNewAccount() {
         accountsPage.clickAccountButtons(AccountButtons.ADD_ACTIONS_BUTTON);
-        accountsPage.createAccount("Art E",AccountsPage.AccountType.CREDIT_TYPE,"2210.50");
-        
-//        Assert.assertEquals("Art E", accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_NAME));
-        System.out.println("TYPE: " + AccountInformation.ACCOUNT_TYPE);
-//        Assert.assertEquals("Savings", accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_TYPE));
-        System.out.println("BALANCE: " + AccountInformation.ACCOUNT_BALANCE);
-//        Assert.assertTrue(accountsPage.checkAccountInformation(AccountInformation.ACCOUNT_BALANCE).contains("2210.50"));
-    }
+        accountsPage.createAccount("Art E", AccountsPage.AccountType.CREDIT_TYPE, "2210.50");
 
-    
+        List<String> allAccounts = accountsPage.getAllAccountRows();
+
+        // Display all content in the list
+        System.out.println("Current accounts on page:");
+        allAccounts.forEach(System.out::println);
+
+        // Assert the newly added account is present
+        boolean found = allAccounts.stream()
+        .anyMatch(row -> {
+            if (!row.contains("Art E") || !row.contains("Credit")) {
+                return false;
+            }
+            // extract numeric value from the row, ignoring $ and commas
+            String normalized = row.replaceAll("[^0-9.]", "");
+            return normalized.contains("2210.50");
+        });
+
+        Assert.assertTrue(found, "Newly added account 'Art E' was not found in the accounts list");
+    }
 }
