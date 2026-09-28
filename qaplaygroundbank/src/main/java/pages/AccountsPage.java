@@ -1,5 +1,6 @@
 package pages;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,9 @@ public class AccountsPage extends BasePage{
     private By accountTypeField = By.cssSelector("[data-testid='account-form-type-select']");
     private By accountAcceptField = By.cssSelector("[data-testid='account-form-accept-terms-checkbox']");
     private By accountAddAccountButton = By.cssSelector("[data-testid='save-account-form-btn']");
-    private By accountTable = By.xpath("[data-testid='accounts-row']");
+    private By accountTable = By.cssSelector("[data-testid='accounts-table']");
+    private By confirmDeleteButton = By.cssSelector("[data-testid='confirm-delete-account-btn']");
+    private By cancelDeleteButton = By.cssSelector("[data-testid='cancel-delete-account-btn']");
 
     public enum AccountButtons {
         SIDEBAR_ACCOUNTS_BUTTON("sidebar-link-accounts"),
@@ -96,12 +99,18 @@ public class AccountsPage extends BasePage{
     public boolean isAccountsHeaderDisplayed(){
         return isDisplayed(AccountInformation.ACCOUNT_NAME.locator());
     }
+   
 
     public List<String> getAllAccountRows() {
         List<WebElement> rows = driver.findElements(accountTable);
         return rows.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isAccountListed(String accountName) {
+        return getAllAccountRows().stream()
+                .anyMatch(row -> row.contains(accountName));
     }
     
     public String checkAccountDetails(AccountDetails details){
@@ -112,6 +121,7 @@ public class AccountsPage extends BasePage{
        return find(info.locator()).getText();
     }
 
+    //Create Accounts
     private void selectAccountType(AccountType type) {
         click(accountTypeField);
         click(type.locator());
@@ -128,4 +138,17 @@ public class AccountsPage extends BasePage{
         click(accountAddAccountButton);
     }
 
+    //Delete Buttons
+    public void clickDeleteAccount(String accountName) {
+        By deleteButton = By.cssSelector("button[aria-label='Delete " + accountName + "']");
+        click(deleteButton);
+    }
+    public void clickConfirmDeleteButton(String accountName) {
+        clickDeleteAccount(accountName);
+        click(confirmDeleteButton);
+    }
+    public void clickCancelDeleteButton(String accountName) {
+        clickDeleteAccount(accountName);
+        click(cancelDeleteButton);
+    }
 }
