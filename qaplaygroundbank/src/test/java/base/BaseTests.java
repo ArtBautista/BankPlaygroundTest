@@ -11,6 +11,7 @@ import static base.BasePage.delay;
 import pages.AccountsPage;
 import pages.DashboardPage;
 import pages.LoginPage;
+import pages.TransferPage;
 
 
 public class BaseTests {
@@ -19,6 +20,7 @@ public class BaseTests {
     protected LoginPage loginPage;
     protected DashboardPage dashboardPage;
     protected AccountsPage accountsPage;
+    protected TransferPage transferPage;
     private String BASE_URL = "https://qaplayground.com/bank/login";
 
     @BeforeClass 
@@ -39,10 +41,12 @@ public class BaseTests {
         loginPage = new LoginPage();
         dashboardPage = new DashboardPage();
         accountsPage = new AccountsPage();
+        transferPage = new TransferPage();
     }
+    
     @AfterClass 
     public void tearDown(){
-        delay(3000);
+        delay(5000);
         driver.quit();
     }
 }
