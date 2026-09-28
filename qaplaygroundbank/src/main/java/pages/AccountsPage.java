@@ -113,12 +113,34 @@ public class AccountsPage extends BasePage{
                 .anyMatch(row -> row.contains(accountName));
     }
     
-    public String checkAccountDetails(AccountDetails details){
-       return find(details.locator()).getText();
+    public static class AccountHistory {
+        public final String listValue;
+        public final String detailValue;
+
+        public AccountHistory(String listValue, String detailValue) {
+            this.listValue = listValue;
+            this.detailValue = detailValue;
+        }
     }
 
-    public String checkAccountInformation(AccountInformation info){
-       return find(info.locator()).getText();
+    public String checkAccountDetails(AccountDetails details) {
+        return find(details.locator()).getText();
+    }
+
+    public String checkAccountInformation(AccountInformation info) {
+        return find(info.locator()).getText();
+    }
+
+    public AccountHistory checkAccountHistory(AccountInformation info, AccountDetails details) {
+        String listValue = checkAccountInformation(info);
+        System.out.println("INFORMATION: " + listValue);
+
+        clickAccountButtons(AccountButtons.VIEW_ACTIONS_BUTTON);
+
+        String detailValue = checkAccountDetails(details);
+        System.out.println("DETAILS: " + detailValue);
+
+        return new AccountHistory(listValue, detailValue);
     }
 
     //Create Accounts
