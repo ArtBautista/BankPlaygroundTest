@@ -34,13 +34,10 @@ public class AccountsTests extends BaseTests {
     }
    
     @Test(dataProvider = "accountCredentials")
-        public void testAccountCredentials(AccountsPage.AccountInformation information, AccountsPage.AccountDetails details) {
-            String listValue = accountsPage.checkAccountInformation(information);
-            System.out.println("INFORMATION: " + listValue);
-            accountsPage.clickAccountButtons(AccountButtons.VIEW_ACTIONS_BUTTON);
-            String detailValue = accountsPage.checkAccountDetails(details);
-            System.out.println("DETAILS: " + detailValue);
-            Assert.assertEquals(detailValue, listValue);
+    public void testAccountCredentials(AccountsPage.AccountInformation information,
+                                    AccountsPage.AccountDetails details) {
+        AccountsPage.AccountHistory history = accountsPage.checkAccountHistory(information, details);
+        Assert.assertEquals(history.detailValue, history.listValue);
     }
 
     //Add New Account Test
