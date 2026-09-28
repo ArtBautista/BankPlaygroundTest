@@ -42,6 +42,7 @@ public class AccountsTests extends BaseTests {
             System.out.println("DETAILS: " + detailValue);
             Assert.assertEquals(detailValue, listValue);
     }
+
     //Add New Account Test
     @Test
     public void testAddNewAccount() {
@@ -64,7 +65,28 @@ public class AccountsTests extends BaseTests {
             String normalized = row.replaceAll("[^0-9.]", "");
             return normalized.contains("2210.50");
         });
-
         Assert.assertTrue(found, "Newly added account 'Art E' was not found in the accounts list");
     }
+
+    //Delete Account Test
+    @Test
+    public void testClickDeleteAccount() {
+        accountsPage.clickDeleteAccount("Everyday Checking"); 
+    }
+    @Test
+    public void testClickCancelDeleteAccount() {
+        accountsPage.clickCancelDeleteButton("Everyday Checking"); 
+
+        Assert.assertTrue(accountsPage.isAccountListed("Everyday Checking"),
+            "Account should still exist after cancelling delete");
+    }
+    @Test
+    public void testClickAcceptDeleteAccount() {
+        accountsPage.clickConfirmDeleteButton("Everyday Checking");  
+
+        Assert.assertFalse(accountsPage.isAccountListed("Everyday Checking"),
+            "Account should be removed after confirming delete");
+    }
+
+
 }
