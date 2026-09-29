@@ -1,6 +1,8 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import base.BasePage;
 
@@ -9,6 +11,8 @@ public class TransferPage extends BasePage {
     private By transferFromButton = By.cssSelector("[data-testid='transfer-from-select']");
     private By transfertoButton = By.cssSelector("[data-testid='transfer-to-select']");
     private By transferAmountField = By.id("transfer-amount");
+    private By transferReviewButton = By.cssSelector("[data-testid='review-transfer-btn']");
+    private By errorMessage = By.xpath("//*[@data-testid='transfer-error-message']");
 
 
     public enum TransferButtons {
@@ -63,6 +67,12 @@ public class TransferPage extends BasePage {
     public void clickTransferButtons(TransferButtons action){
         click(action.locator());
     }
+    public String getErrorMessage() {
+        WebElement error = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(errorMessage)
+        );
+        return error.getText();
+    }
 
     //Transfering Account
     public void selectFromAccount(FromAccount accountId){
@@ -73,10 +83,20 @@ public class TransferPage extends BasePage {
         click(transfertoButton);
         click(accountId.locator());
     }
-    public void enterTransferDetails(FromAccount fromAccount,ToAccount toAccount,String amount){
+    public void selectAccounts(FromAccount fromAccount,ToAccount toAccount){
         selectFromAccount(fromAccount);
         selectToAccount(toAccount);
+    }
+    public void enterTransferDetails(FromAccount fromAccount,ToAccount toAccount,String amount){
+        selectAccounts(fromAccount,toAccount);
+        enterTransferAmount(amount);
+    }
+    public void enterTransferAmount(String amount){
         set(transferAmountField, amount);
+    }
+    
+    public void clickReviewTransfer(){
+        click(transferReviewButton);
     }
     
 }
