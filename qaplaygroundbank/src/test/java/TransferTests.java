@@ -1,3 +1,4 @@
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,10 +20,24 @@ public class TransferTests extends BaseTests{
         transferPage.clickTransferButtons(TransferButtons.CANCEL_TRANSFER_BUTTON);
     }
     @Test
-    public void testSelectTransfer(){
-        transferPage.enterTransferDetails(FromAccount.HIGH_YIELD_SAVINGS, ToAccount.EVERYDAY_CHECKING, "250.00");
-        
+    public void testClickReviewTransferWithoutDetails(){
+        transferPage.clickReviewTransfer();   
+        Assert.assertTrue(transferPage.getErrorMessage().contains("Please select a From account."));
     }
-
-   
+    @Test
+    public void testClickReviewTransferWithoutBalance(){
+        transferPage.selectAccounts(FromAccount.HIGH_YIELD_SAVINGS,ToAccount.EVERYDAY_CHECKING);   
+        transferPage.clickReviewTransfer();   
+        Assert.assertTrue(transferPage.getErrorMessage().contains("Please enter a valid amount."));
+    }
+    @Test
+    public void testClickReviewTransferWithBalanceOnly(){
+         transferPage.enterTransferAmount("100.00");
+        transferPage.clickReviewTransfer(); 
+        Assert.assertTrue(transferPage.getErrorMessage().contains("Please select a From account."));
+    }
+  @Test
+    public void testSelectTransferDetails(){
+        transferPage.enterTransferDetails(FromAccount.HIGH_YIELD_SAVINGS, ToAccount.EVERYDAY_CHECKING, "250.00");
+    }
 }
