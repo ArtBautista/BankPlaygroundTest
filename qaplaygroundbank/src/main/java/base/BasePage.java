@@ -3,6 +3,7 @@ package base;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -58,5 +59,12 @@ public class BasePage {
     }
     public List<WebElement> findAll(By locator) {
         return driver.findElements(locator);
+    }
+
+    public List<String> getElements(By locator) {
+        List<WebElement> rows = driver.findElements(locator);
+        return rows.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }
