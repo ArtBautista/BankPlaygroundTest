@@ -1,3 +1,5 @@
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -36,8 +38,19 @@ public class TransferTests extends BaseTests{
         transferPage.clickReviewTransfer(); 
         Assert.assertTrue(transferPage.getErrorMessage().contains("Please select a From account."));
     }
-  @Test
-    public void testSelectTransferDetails(){
+    @Test
+    public void testSelectTransferDetails() {
         transferPage.enterTransferDetails(FromAccount.HIGH_YIELD_SAVINGS, ToAccount.EVERYDAY_CHECKING, "250.00");
+        transferPage.enterTransferDate("11-11-2026"); // yyyy-MM-dd, matches the native date input format
+        transferPage.clickReviewTransfer();
+
+        List<String> transferSummary = transferPage.getTransferSummary();
+        System.out.println("Transfer summary on page:");
+        transferSummary.forEach(System.out::println);
+
+        Assert.assertTrue(
+            transferPage.isAccountListed(FromAccount.HIGH_YIELD_SAVINGS, ToAccount.EVERYDAY_CHECKING, "250.00", "2026-11-11"),
+            "Transfer summary did not match the entered details. Rows: " + transferSummary
+        );
     }
 }
