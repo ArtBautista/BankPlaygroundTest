@@ -1,5 +1,7 @@
 package pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +15,9 @@ public class TransferPage extends BasePage {
     private By transferAmountField = By.id("transfer-amount");
     private By transferReviewButton = By.cssSelector("[data-testid='review-transfer-btn']");
     private By errorMessage = By.xpath("//*[@data-testid='transfer-error-message']");
-
+    private By billPaymentDateInput = By.id("transfer-scheduled-date");
+    private By transferDateButton = By.cssSelector("[data-testid='date-type-scheduled']");
+    private By transferSummary = By.cssSelector("[data-testid='transfer-confirm-summary']");
 
     public enum TransferButtons {
         SIDEBAR_TRANSFER_BUTTON("sidebar-link-transfer"),
@@ -33,39 +37,58 @@ public class TransferPage extends BasePage {
     }
 
     public enum FromAccount {
-        HIGH_YIELD_SAVINGS("acc-savings-1"),
-        EVERYDAY_CHECKING("acc-checking-1");   // use your real ids
-
-        // add the other accounts' ids here
+        HIGH_YIELD_SAVINGS("acc-savings-1", "High-Yield Savings"),
+        EVERYDAY_CHECKING("acc-checking-1", "Everyday Checking");   // use your real ids
 
         private final String accountId;
+        private final String displayName;
 
-        FromAccount(String accountId) {
+        FromAccount(String accountId, String displayName) {
             this.accountId = accountId;
+            this.displayName = displayName;
         }
-
+        
         By locator() {
             return By.cssSelector("[data-testid='transfer-from-option'][data-account-id='" + accountId + "']");
         }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+        
     }
     public enum ToAccount {
-        HIGH_YIELD_SAVINGS("acc-savings-1"),
-        EVERYDAY_CHECKING("acc-checking-1");   // use your real ids
-
-        // add the other accounts' ids here
+        HIGH_YIELD_SAVINGS("acc-savings-1", "High-Yield Savings"),
+        EVERYDAY_CHECKING("acc-checking-1", "Everyday Checking");   
 
         private final String accountId;
+        private final String displayName;
 
-        ToAccount(String accountId) {
+        ToAccount(String accountId, String displayName) {
             this.accountId = accountId;
+            this.displayName = displayName;
         }
 
         By locator() {
             return By.cssSelector("[data-testid='transfer-to-option'][data-account-id='" + accountId + "']");
         }
+        public String getDisplayName() {
+            return displayName;
+        }
     }
     public void clickTransferButtons(TransferButtons action){
         click(action.locator());
+    }
+
+    public List<String> getTransferSummary() {
+        return getElements(transferSummary);
+    }
+    public boolean isAccountListed(FromAccount fromAccount, ToAccount toAccount, String amount, String date) {
+        return getTransferSummary().stream()
+            .anyMatch(row -> row.contains(fromAccount.getDisplayName())
+                    && row.contains(toAccount.getDisplayName())
+                    && row.contains(amount)
+                    && row.contains(date));
     }
     public String getErrorMessage() {
         WebElement error = wait.until(
@@ -97,6 +120,12 @@ public class TransferPage extends BasePage {
     
     public void clickReviewTransfer(){
         click(transferReviewButton);
+    }
+
+    //Transfer Date
+    public void enterTransferDate(String date){
+        click(transferDateButton);
+        set(billPaymentDateInput, date);
     }
     
 }
