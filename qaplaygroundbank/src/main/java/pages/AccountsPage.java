@@ -2,10 +2,8 @@ package pages;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import base.BasePage;
 
@@ -102,14 +100,11 @@ public class AccountsPage extends BasePage{
    
 
     public List<String> getAllAccountRows() {
-        List<WebElement> rows = driver.findElements(accountTable);
-        return rows.stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        return getElements(accountTable);
     }
 
     public boolean isAccountListed(String accountName) {
-        return getAllAccountRows().stream()
+        return getElements(accountTable).stream()
                 .anyMatch(row -> row.contains(accountName));
     }
     
