@@ -11,7 +11,9 @@ import static base.BasePage.delay;
 import pages.AccountsPage;
 import pages.DashboardPage;
 import pages.LoginPage;
+import pages.SendMoneyPage;
 import pages.TransferPage;
+import static utilities.Utility.setUtilityDriver;
 
 
 public class BaseTests {
@@ -21,6 +23,7 @@ public class BaseTests {
     protected DashboardPage dashboardPage;
     protected AccountsPage accountsPage;
     protected TransferPage transferPage;
+    protected SendMoneyPage sendMoneyPage;
     private String BASE_URL = "https://qaplayground.com/bank/login";
 
     @BeforeClass 
@@ -38,10 +41,12 @@ public class BaseTests {
         driver.get(BASE_URL); // reload to actually land on login page now that session is cleared
         basePage = new BasePage();
         basePage.setDriver(driver);
+        setUtilityDriver();
         loginPage = new LoginPage();
         dashboardPage = new DashboardPage();
         accountsPage = new AccountsPage();
         transferPage = new TransferPage();
+        sendMoneyPage = new SendMoneyPage();
     }
     
     @AfterClass 
