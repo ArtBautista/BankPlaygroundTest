@@ -1,5 +1,7 @@
 package pages;
 
+import java.math.BigDecimal;
+
 import org.openqa.selenium.By;
 
 import base.BasePage;
@@ -9,7 +11,8 @@ public class DashboardPage extends BasePage {
     private static final By WELCOME_MESSAGE = By.cssSelector("[data-testid='dashboard-welcome-message']");
     private static final By LOGOUT_BUTTON = By.cssSelector("[data-testid='topbar-logout-btn']");
     private static final By NOTIFICATION_BUTTON = By.cssSelector("[data-testid='nav-notifications-link']");
-    
+    private static final By TOTAL_NET_WORTH = By.cssSelector("[data-testid='stat-card-net-worth-value']");
+
     public enum QuickAction {
         TRANSFER("quick-action-transfer","/bank/transfer"),
         SEND_MONEY("quick-action-send-money","/bank/send-money"),
@@ -70,7 +73,18 @@ public class DashboardPage extends BasePage {
     public void clickLogoutButton() {
         click(LOGOUT_BUTTON);
     }
+    
+    public BigDecimal getNetWorth() {
+        String netWorth = find(TOTAL_NET_WORTH).getText();
 
+        String normalizedNetWorth = netWorth
+                .replace("$", "")
+                .replace(",", "")
+                .trim();
+
+        return new BigDecimal(normalizedNetWorth);
+    }
+    
     public boolean isWelcomeMessageDisplayed() {
         return isDisplayed(WELCOME_MESSAGE);
     }
