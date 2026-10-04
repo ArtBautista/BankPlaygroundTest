@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 import org.testng.Assert;
@@ -7,83 +6,134 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import base.BaseTests;
-import pages.AccountsPage;
-import pages.AccountsPage.AccountButtons;
+import pages.AccountsPage.AccountButton;
+import pages.AccountsPage.AccountElement;
+import pages.AccountsPage.AccountHistory;
+import pages.AccountsPage.AccountType;
 
 public class AccountsTests extends BaseTests {
 
     @BeforeMethod
     public void loginAsStandardUser() {
         loginPage.logIntoApplication("standard_user", "bank_sauce");
-        accountsPage.clickAccountButtons(AccountButtons.SIDEBAR_ACCOUNTS_BUTTON);
+        accountsPage.clickAccountButton(AccountButton.SIDEBAR_ACCOUNTS);
     }
 
-    @Test 
-    public void testAccountsHeader(){
-        Assert.assertTrue(accountsPage.isAccountsHeaderDisplayed(),
-                "Accounts message is not displayed");  
+
+    // Accounts Page
+    @Test
+    public void testAccountsPageDisplayed() {
+        Assert.assertTrue(
+                accountsPage.isAccountsPageDisplayed(),
+                "Accounts page is not displayed."
+        );
     }
 
-    @DataProvider(name = "accountCredentials")
-    public Object[][] accountCredentials() {
+
+    // Account Details
+    @DataProvider(name = "accountDetails")
+    public Object[][] accountDetails() {
         return new Object[][] {
-            { AccountsPage.AccountInformation.ACCOUNT_NAME, AccountsPage.AccountDetails.ACCOUNT_DETAILS_NAME },
-            { AccountsPage.AccountInformation.ACCOUNT_TYPE, AccountsPage.AccountDetails.ACCOUNT_DETAILS_TYPE },
-            { AccountsPage.AccountInformation.ACCOUNT_BALANCE, AccountsPage.AccountDetails.ACCOUNT_DETAILS_BALANCE }
+            {
+                AccountElement.LIST_NAME,
+                AccountElement.DETAIL_NAME
+            },
+            {
+                AccountElement.LIST_TYPE,
+                AccountElement.DETAIL_TYPE
+            },
+            {
+                AccountElement.LIST_BALANCE,
+                AccountElement.DETAIL_BALANCE
+            }
         };
     }
-   
-    @Test(dataProvider = "accountCredentials")
-    public void testAccountCredentials(AccountsPage.AccountInformation information,
-                                    AccountsPage.AccountDetails details) {
-        AccountsPage.AccountHistory history = accountsPage.checkAccountHistory(information, details);
-        Assert.assertEquals(history.detailValue, history.listValue);
+
+    @Test(dataProvider = "accountDetails")
+    public void testAccountDetails(
+            AccountElement listElement,
+            AccountElement detailElement) {
+
+        AccountHistory history = accountsPage.getAccountHistory(
+                listElement,
+                detailElement
+        );
+
+        Assert.assertEquals(
+                history.getDetailValue(),
+                history.getListValue(),
+                "Account information does not match."
+        );
     }
 
-    //Add New Account Test
+
+    // Add Account
     @Test
     public void testAddNewAccount() {
-        accountsPage.clickAccountButtons(AccountButtons.ADD_ACTIONS_BUTTON);
-        accountsPage.createAccount("Art E", AccountsPage.AccountType.CREDIT_TYPE, "2210.50");
+        String accountName = "Art E";
+        String accountBalance = "2210.50";
+
+        accountsPage.clickAccountButton(AccountButton.ADD_ACCOUNT);
+
+        accountsPage.createAccount(
+                accountName,
+                AccountType.CREDIT,
+                accountBalance
+        );
 
         List<String> allAccounts = accountsPage.getAllAccountRows();
 
-        // Display all content in the list
         System.out.println("Current accounts on page:");
         allAccounts.forEach(System.out::println);
 
-        // Assert the newly added account is present
-        boolean found = allAccounts.stream()
-        .anyMatch(row -> {
-            if (!row.contains("Art E") || !row.contains("Credit")) {
-                return false;
-            }
-            // extract numeric value from the row, ignoring $ and commas
-            String normalized = row.replaceAll("[^0-9.]", "");
-            return normalized.contains("2210.50");
-        });
-        Assert.assertTrue(found, "Newly added account 'Art E' was not found in the accounts list");
+        boolean accountFound = allAccounts.stream()
+                .anyMatch(row -> {
+                    if (!row.contains(accountName)
+                            || !row.contains("Credit")) {
+                        return false;
+                    }
+
+                    String normalizedBalance =
+                            row.replaceAll("[^0-9.]", "");
+
+                    return normalizedBalance.contains(accountBalance);
+                });
+
+        Assert.assertTrue(
+                accountFound,
+                "Newly added account '" + accountName
+                        + "' was not found in the accounts list."
+        );
     }
 
-    //Delete Account Test
+
+    // Delete Account
     @Test
-    public void testClickDeleteAccount() {
-        accountsPage.clickDeleteAccount("Everyday Checking"); 
+    public void testDeleteAccountButton() {
+        accountsPage.clickDeleteAccount("Everyday Checking");
     }
+
     @Test
-    public void testClickCancelDeleteAccount() {
-        accountsPage.clickCancelDeleteButton("Everyday Checking"); 
+    public void testCancelDeleteAccount() {
+        String accountName = "Everyday Checking";
 
-        Assert.assertTrue(accountsPage.isAccountListed("Everyday Checking"),
-            "Account should still exist after cancelling delete");
+        accountsPage.cancelDeleteAccount(accountName);
+
+        Assert.assertTrue(
+                accountsPage.isAccountListed(accountName),
+                "Account should still exist after cancelling deletion."
+        );
     }
+
     @Test
-    public void testClickAcceptDeleteAccount() {
-        accountsPage.clickConfirmDeleteButton("Everyday Checking");  
+    public void testConfirmDeleteAccount() {
+        String accountName = "Everyday Checking";
 
-        Assert.assertFalse(accountsPage.isAccountListed("Everyday Checking"),
-            "Account should be removed after confirming delete");
+        accountsPage.confirmDeleteAccount(accountName);
+
+        Assert.assertFalse(
+                accountsPage.isAccountListed(accountName),
+                "Account should be removed after confirming deletion."
+        );
     }
-
-
 }
