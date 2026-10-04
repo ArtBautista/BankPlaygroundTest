@@ -35,7 +35,6 @@ public class TransferPage extends BasePage {
             return By.cssSelector("[data-testid='" + testId + "']");
         }
     }
-
     public enum FromAccount {
         HIGH_YIELD_SAVINGS("acc-savings-1", "High-Yield Savings"),
         EVERYDAY_CHECKING("acc-checking-1", "Everyday Checking");   // use your real ids
