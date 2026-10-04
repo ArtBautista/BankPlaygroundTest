@@ -63,15 +63,21 @@ public class DashboardTests extends BaseTests {
     }
     @Test
     public void testTotalAccountBalance() {
+
+        BigDecimal netWorth = dashboardPage.getNetWorth();
         dashboardPage.clickAccountsButton();
+
         BigDecimal totalBalance = accountsPage.getTotalAccountBalance();
 
-        System.out.println("Total Balance: $" + totalBalance);
+        // Debug
+        System.out.println("Net Worth: $" + netWorth);
+        System.out.println("Total Account Balance: $" + totalBalance);
 
-        Assert.assertEquals(
-                totalBalance,
-                new BigDecimal("17050"),
-                "Total account balance is incorrect."
+        Assert.assertTrue(
+                totalBalance.compareTo(netWorth) == 0,
+                "Total account balance does not match dashboard net worth. "
+                        + "Expected: $" + netWorth
+                        + " | Actual: $" + totalBalance
         );
     }
 }
