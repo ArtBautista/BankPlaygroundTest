@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -67,4 +68,13 @@ public class BasePage {
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
+    public boolean isCurrentUrl(String expectedUrl) {
+    try {
+        return wait.until(
+            ExpectedConditions.urlContains(expectedUrl)
+        );
+    } catch (TimeoutException e) {
+        return false;
+    }
+}
 }
