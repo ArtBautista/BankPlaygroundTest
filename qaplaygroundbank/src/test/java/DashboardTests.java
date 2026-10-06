@@ -22,19 +22,28 @@ public class DashboardTests extends BaseTests {
         Assert.assertTrue(dashboardPage.isWelcomeMessageDisplayed(),
                 "Dashboard welcome message is not displayed");
     }
-
+    //TC-DASH-002
     @Test
-    public void testNotificationButton() {
-        dashboardPage.clickNotificationButton();
-        Assert.assertTrue(dashboardPage.isPageTitleDisplayed(DashboardPage.PageTitle.NOTIFICATIONS),
-                "Notifications page title is not displayed");
+    public void testTotalAccountBalance() {
+
+        BigDecimal netWorth = dashboardPage.getNetWorth();
+        dashboardPage.clickAccountsButton();
+
+        BigDecimal totalBalance = accountsPage.getTotalAccountBalance();
+
+        // Debug
+        System.out.println("Net Worth: $" + netWorth);
+        System.out.println("Total Account Balance: $" + totalBalance);
+
+        Assert.assertTrue(
+                totalBalance.compareTo(netWorth) == 0,
+                "Total account balance does not match dashboard net worth. "
+                        + "Expected: $" + netWorth
+                        + " | Actual: $" + totalBalance
+        );
     }
 
-    @Test
-    public void testLogoutButton() {
-        dashboardPage.clickLogoutButton();
-        
-    }
+    
     //TC-DASH-004 & TC-DASH-005
     @DataProvider(name = "quickActions")
     public Object[][] quickActions() {
@@ -62,22 +71,15 @@ public class DashboardTests extends BaseTests {
         System.out.println("Actual URL: " + driver.getCurrentUrl());
     }
     @Test
-    public void testTotalAccountBalance() {
+    public void testNotificationButton() {
+        dashboardPage.clickNotificationButton();
+        Assert.assertTrue(dashboardPage.isPageTitleDisplayed(DashboardPage.PageTitle.NOTIFICATIONS),
+                "Notifications page title is not displayed");
+    }
 
-        BigDecimal netWorth = dashboardPage.getNetWorth();
-        dashboardPage.clickAccountsButton();
-
-        BigDecimal totalBalance = accountsPage.getTotalAccountBalance();
-
-        // Debug
-        System.out.println("Net Worth: $" + netWorth);
-        System.out.println("Total Account Balance: $" + totalBalance);
-
-        Assert.assertTrue(
-                totalBalance.compareTo(netWorth) == 0,
-                "Total account balance does not match dashboard net worth. "
-                        + "Expected: $" + netWorth
-                        + " | Actual: $" + totalBalance
-        );
+    @Test
+    public void testLogoutButton() {
+        dashboardPage.clickLogoutButton();
+        
     }
 }
