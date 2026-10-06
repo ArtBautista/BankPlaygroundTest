@@ -15,9 +15,10 @@ public class AccountsPage extends BasePage {
     private final By accountTypeField = By.cssSelector("[data-testid='account-form-type-select']");
     private final By accountAcceptTermsCheckbox = By.cssSelector("[data-testid='account-form-accept-terms-checkbox']");
     private final By saveAccountButton =By.cssSelector("[data-testid='save-account-form-btn']");
-    private final By accountTable = By.cssSelector("[data-testid='accounts-table']");
+    private final By accountRows = By.cssSelector("[data-testid='account-row']");
     private final By confirmDeleteButton = By.cssSelector("[data-testid='confirm-delete-account-btn']");
     private final By cancelDeleteButton = By.cssSelector("[data-testid='cancel-delete-account-btn']");
+    private final By accountFreezeBanner = By.cssSelector("[data-testid='frozen-account-banner']");
 
 
     // Account Buttons
@@ -40,7 +41,6 @@ public class AccountsPage extends BasePage {
         }
     }
 
-
     // Account Elements
     public enum AccountElement {
 
@@ -54,7 +54,11 @@ public class AccountsPage extends BasePage {
         // Account Details
         DETAIL_NAME("account-detail-name"),
         DETAIL_TYPE("account-detail-type-badge"),
-        DETAIL_BALANCE("account-detail-balance");
+        DETAIL_BALANCE("account-detail-balance"),
+
+        // Existing Accounts
+        HIGH_YIELD_SAVINGS("High-Yield Savings"),    
+        EVERYDAY_CHECKING( "Everyday Checking");
 
         private final String testId;
 
@@ -67,8 +71,8 @@ public class AccountsPage extends BasePage {
                     "[data-testid='" + testId + "']"
             );
         }
+        
     }
-
 
     // Account Types
     public enum AccountType {
@@ -88,8 +92,8 @@ public class AccountsPage extends BasePage {
                     + "[data-account-type='" + accountType + "']"
             );
         }
+        
     }
-
 
     // Account History
     public static class AccountHistory {
@@ -119,30 +123,58 @@ public class AccountsPage extends BasePage {
 
 
     // Account Information
-    public boolean isAccountsPageDisplayed() {
-        return isDisplayed(AccountElement.PAGE_TITLE.locator());
-    }
-
     public List<String> getAllAccountRows() {
-        return getElements(accountTable);
+        System.out.println("Current URL: " + driver.getCurrentUrl());
+        System.out.println("Row count: " + driver.findElements(accountRows).size());
+        return getElements(accountRows);
     }
-
-    public boolean isAccountListed(String accountName) {
-        return getAllAccountRows()
-                .stream()
-                .anyMatch(row -> row.contains(accountName));
-    }
-
     public String getAccountElementText(AccountElement element) {
         return find(element.locator()).getText();
     }
-
+    public List<String> getAccountTypes() {
+        return driver.findElements(accountRows)
+                .stream()
+                .map(row -> row.getAttribute("data-account-type"))
+                .toList();
+    }
+    public List<String> getAccountStatus() {
+        return driver.findElements(accountRows)
+                .stream()
+                .map(row -> row.getAttribute("account-row-overdrawn"))
+                .toList();
+    }
     public String getAccountsTotalBalance(AccountElement element) {
         return find(element.locator()).getText();
     }
+    public boolean isAccountsPageDisplayed() {
+        return isDisplayed(AccountElement.PAGE_TITLE.locator());
+    }
+    public boolean isFreezeBannerDisplayed() {
+        System.out.println(find(accountFreezeBanner).getText());
+        return isDisplayed(accountFreezeBanner);
+    }
+    public boolean isAccountElementDisplayed(String accountElement) {
+        return getAllAccountRows()
+                .stream()
+                .anyMatch(row -> row.contains("Overdrawn"));
+    }
 
+    public void viewAccount(String accountName) {
+        By viewButton = By.xpath(
+                "//tr[@data-testid='account-row']" +
+                "[.//*[@data-testid='account-row-name' and text()='"
+                + accountName +
+                "']]//*[@data-testid='view-account-btn']"
+        );
 
-
+        click(viewButton);
+    }
+    public boolean isAccountDetailNameDisplayed() {
+        return isDisplayed(AccountElement.DETAIL_NAME.locator());
+    }
+    public String getAccountDetailName() {
+        return getAccountElementText(AccountElement.DETAIL_NAME);
+    }
     // Account History
     public AccountHistory getAccountHistory(AccountElement listElement, AccountElement detailElement) {
 
@@ -163,14 +195,12 @@ public class AccountsPage extends BasePage {
         click(accountTypeField);
         click(type.locator());
     }
-
     public void enterAccountDetails( String name, AccountType type, String balance) {
 
         set(accountNameField, name);
         selectAccountType(type);
         set(accountBalanceField, balance);
     }
-
     public void createAccount(String name,AccountType type,String balance) {
 
         enterAccountDetails(name, type, balance);
@@ -184,12 +214,10 @@ public class AccountsPage extends BasePage {
         By deleteButton = By.cssSelector( "button[aria-label='Delete " + accountName + "']" );
         click(deleteButton);
     }
-
     public void confirmDeleteAccount(String accountName) {
         clickDeleteAccount(accountName);
         click(confirmDeleteButton);
     }
-
     public void cancelDeleteAccount(String accountName) {
         clickDeleteAccount(accountName);
         click(cancelDeleteButton);
@@ -208,5 +236,17 @@ public class AccountsPage extends BasePage {
         System.out.println("Total Account Balance: $" + totalBalance);
 
         return totalBalance;
+    }
+
+    //GET MASKED NUMBER
+    public String getMaskedAccountNumber(String accountName) {
+        By accountNumber = By.xpath(
+                "//tr[@data-testid='account-row']" +
+                "[.//*[@data-testid='account-row-name' and text()='"
+                + accountName +
+                "']]//p[contains(text(), '****')]"
+        );
+
+        return find(accountNumber).getText();
     }
 }
