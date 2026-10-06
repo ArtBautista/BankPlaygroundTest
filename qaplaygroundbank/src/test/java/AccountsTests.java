@@ -1,14 +1,15 @@
+import java.time.Duration;
 import java.util.List;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import base.BaseTests;
+import pages.AccountsPage;
 import pages.AccountsPage.AccountButton;
-import pages.AccountsPage.AccountElement;
-import pages.AccountsPage.AccountHistory;
 import pages.AccountsPage.AccountType;
 
 public class AccountsTests extends BaseTests {
@@ -17,6 +18,9 @@ public class AccountsTests extends BaseTests {
     public void loginAsStandardUser() {
         loginPage.logIntoApplication("standard_user", "bank_sauce");
         accountsPage.clickAccountButton(AccountButton.SIDEBAR_ACCOUNTS);
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+        .until(ExpectedConditions.urlContains("/accounts"));
     }
 
 
@@ -28,45 +32,72 @@ public class AccountsTests extends BaseTests {
                 "Accounts page is not displayed."
         );
     }
+    // TC-ACC-001 - Verify Accounts List Load
+    @Test
+    public void testAccountsListed() {
+        
+        List<String> allAccounts = accountsPage.getAllAccountRows();
+        System.out.println("Accounts on page: ");
+        allAccounts.forEach(System.out::println);
 
+        boolean hasChecking = accountsPage.isAccountElementDisplayed(AccountsPage.AccountType.CHECKING.toString().toLowerCase());
+        boolean hasSavings = accountsPage.isAccountElementDisplayed(AccountsPage.AccountType.SAVINGS.toString().toLowerCase());
+        
 
-    // Account Details
-    @DataProvider(name = "accountDetails")
-    public Object[][] accountDetails() {
-        return new Object[][] {
-            {
-                AccountElement.LIST_NAME,
-                AccountElement.DETAIL_NAME
-            },
-            {
-                AccountElement.LIST_TYPE,
-                AccountElement.DETAIL_TYPE
-            },
-            {
-                AccountElement.LIST_BALANCE,
-                AccountElement.DETAIL_BALANCE
-            }
-        };
+        Assert.assertTrue(hasChecking, "No checking account found. Rows: " + allAccounts);
+        Assert.assertTrue(hasSavings, "No savings account found. Rows: " + allAccounts);
     }
+    //TC-ACC-002 - Verify Account Details Display
+    @Test
+    public void testAccountDetailsDisplay() {
+        String accountName = "Everyday Checking";
+        String accountNumber = accountsPage.getMaskedAccountNumber(accountName);
 
-    @Test(dataProvider = "accountDetails")
-    public void testAccountDetails(
-            AccountElement listElement,
-            AccountElement detailElement) {
+        System.out.println("Account Name: " + accountName);
+        System.out.println("Account Number: " + accountNumber);
 
-        AccountHistory history = accountsPage.getAccountHistory(
-                listElement,
-                detailElement
+        Assert.assertTrue(
+                accountsPage.isAccountElementDisplayed(accountName),
+                "Account name is not visible."
         );
 
-        Assert.assertEquals(
-                history.getDetailValue(),
-                history.getListValue(),
-                "Account information does not match."
+        Assert.assertTrue(
+                accountNumber.matches("\\*{4}\\d{4}"),
+                "Account number is not properly masked: " + accountNumber
+        );
+
+        accountsPage.viewAccount(accountName);
+    }
+    //TC-ACC-003 - Verify Overdraft Banner
+    @Test
+    public void testOverdraftBanner() {
+        dashboardPage.clickLogoutButton();
+        loginPage.logIntoApplication("overdraft_user", "bank_sauce");
+        accountsPage.clickAccountButton(AccountButton.SIDEBAR_ACCOUNTS);
+
+        List<String> allAccounts = accountsPage.getAllAccountRows();
+        System.out.println("Accounts on page:");
+        allAccounts.forEach(System.out::println);
+
+        Assert.assertTrue(
+            accountsPage.isAccountElementDisplayed("Overdrawn"),
+            "Overdraft warning indicator was not shown on the checking account."
         );
     }
+    //TC-ACC-004 - Verify Frozen Account Alert
+    @Test
+    public void testFrozenAccountAlert() {
+        dashboardPage.clickLogoutButton();
+        loginPage.logIntoApplication("frozen_user", "bank_sauce");
+        accountsPage.clickAccountButton(AccountButton.SIDEBAR_ACCOUNTS);
 
-
+        
+        Assert.assertTrue(
+            accountsPage.isFreezeBannerDisplayed(),
+            "Freeze Banner is not displayed."
+        );
+    }
+    
     // Add Account
     @Test
     public void testAddNewAccount() {
@@ -106,13 +137,11 @@ public class AccountsTests extends BaseTests {
         );
     }
 
-
     // Delete Account
     @Test
     public void testDeleteAccountButton() {
         accountsPage.clickDeleteAccount("Everyday Checking");
     }
-
     @Test
     public void testCancelDeleteAccount() {
         String accountName = "Everyday Checking";
@@ -120,7 +149,7 @@ public class AccountsTests extends BaseTests {
         accountsPage.cancelDeleteAccount(accountName);
 
         Assert.assertTrue(
-                accountsPage.isAccountListed(accountName),
+                accountsPage.isAccountElementDisplayed(accountName),
                 "Account should still exist after cancelling deletion."
         );
     }
@@ -132,8 +161,12 @@ public class AccountsTests extends BaseTests {
         accountsPage.confirmDeleteAccount(accountName);
 
         Assert.assertFalse(
-                accountsPage.isAccountListed(accountName),
+                accountsPage.isAccountElementDisplayed(accountName),
                 "Account should be removed after confirming deletion."
         );
     }
+
+
+
+
 }
