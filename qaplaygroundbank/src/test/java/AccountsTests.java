@@ -98,7 +98,7 @@ public class AccountsTests extends BaseTests {
         );
     }
     
-    // Add Account
+    // TC-ACC-006 - Verify Add Account Functionality
     @Test
     public void testAddNewAccount() {
         String accountName = "Art E";
@@ -108,7 +108,7 @@ public class AccountsTests extends BaseTests {
 
         accountsPage.createAccount(
                 accountName,
-                AccountType.CREDIT,
+                AccountType.SAVINGS,
                 accountBalance
         );
 
@@ -120,7 +120,7 @@ public class AccountsTests extends BaseTests {
         boolean accountFound = allAccounts.stream()
                 .anyMatch(row -> {
                     if (!row.contains(accountName)
-                            || !row.contains("Credit")) {
+                            || !row.contains("Savings")) {
                         return false;
                     }
 
