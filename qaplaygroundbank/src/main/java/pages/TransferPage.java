@@ -1,29 +1,31 @@
 package pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import base.BasePage;
+import pages.TransferPage.TransferButtons;
+import pages.TransferPage.TransferField;
 
 public class TransferPage extends BasePage {
 
-    private By transferFromButton = By.cssSelector("[data-testid='transfer-from-select']");
-    private By transfertoButton = By.cssSelector("[data-testid='transfer-to-select']");
-    private By transferAmountField = By.id("transfer-amount");
-    private By transferReviewButton = By.cssSelector("[data-testid='review-transfer-btn']");
     private By errorMessage = By.xpath("//*[@data-testid='transfer-error-message']");
     private By billPaymentDateInput = By.id("transfer-scheduled-date");
     private By transferDateButton = By.cssSelector("[data-testid='date-type-scheduled']");
+    private By transferResult = By.cssSelector("[data-testid='transfer-success-heading']");
     private By transferSummary = By.cssSelector("[data-testid='transfer-confirm-summary']");
 
     public enum TransferButtons {
         SIDEBAR_TRANSFER_BUTTON("sidebar-link-transfer"),
         CANCEL_TRANSFER_BUTTON("cancel-transfer-btn"),
-        REVIEW_TRANSFER_BUTTON("review-transfer-btn");
-        
+        REVIEW_TRANSFER_BUTTON("review-transfer-btn"),
+        CANCEL_REVIEWED_TRANSFER_BUTTON("cancel-confirm-transfer-btn"),
+        CONFIRM_TRANSFER_BUTTON("confirm-transfer-btn");
 
         private final String testId;
 
@@ -35,6 +37,22 @@ public class TransferPage extends BasePage {
             return By.cssSelector("[data-testid='" + testId + "']");
         }
     }
+    public enum TransferField{
+        FROM_ACCOUNT("transfer-from-select"),
+        TO_ACCOUNT("transfer-to-select"),
+        AMOUNT("transfer-amount-input");
+
+        private final String testId;
+
+        TransferField(String testId){
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
+    }
+    
     public enum FromAccount {
         HIGH_YIELD_SAVINGS("acc-savings-1", "High-Yield Savings"),
         EVERYDAY_CHECKING("acc-checking-1", "Everyday Checking");   // use your real ids
@@ -78,9 +96,14 @@ public class TransferPage extends BasePage {
     public void clickTransferButtons(TransferButtons action){
         click(action.locator());
     }
-
+    public void clickTransferFields(TransferField action){
+        click(action.locator());
+    }
     public List<String> getTransferSummary() {
         return getElements(transferSummary);
+    }
+    public String getTransferSuccessMessage() {
+        return find(transferResult).getText().trim();
     }
     public boolean isAccountListed(FromAccount fromAccount, ToAccount toAccount, String amount, String date) {
         return getTransferSummary().stream()
@@ -95,14 +118,16 @@ public class TransferPage extends BasePage {
         );
         return error.getText();
     }
-
+    public boolean isTransferFieldDisplayed(TransferField field) {
+        return isDisplayed(field.locator());
+    }
     //Transfering Account
     public void selectFromAccount(FromAccount accountId){
-        click(transferFromButton);
+        clickTransferFields(TransferField.FROM_ACCOUNT);
         click(accountId.locator());
     }
     public void selectToAccount(ToAccount accountId){
-        click(transfertoButton);
+        clickTransferFields(TransferField.TO_ACCOUNT);
         click(accountId.locator());
     }
     public void selectAccounts(FromAccount fromAccount,ToAccount toAccount){
@@ -114,11 +139,12 @@ public class TransferPage extends BasePage {
         enterTransferAmount(amount);
     }
     public void enterTransferAmount(String amount){
-        set(transferAmountField, amount);
+        set(TransferField.AMOUNT.locator(), amount);
     }
-    
-    public void clickReviewTransfer(){
-        click(transferReviewButton);
+    public void completeTransfer(FromAccount fromAccount,ToAccount toAccount,String amount){
+        enterTransferDetails(fromAccount,toAccount,amount);
+        clickTransferButtons(TransferButtons.REVIEW_TRANSFER_BUTTON);
+        clickTransferButtons(TransferButtons.CONFIRM_TRANSFER_BUTTON);
     }
 
     //Transfer Date
@@ -126,5 +152,16 @@ public class TransferPage extends BasePage {
         click(transferDateButton);
         set(billPaymentDateInput, date);
     }
-    
+
+    public boolean isToAccountUnavailable(ToAccount account) {
+
+    By toAccountOptions =
+            By.cssSelector("[data-testid='transfer-to-option']");
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(toAccountOptions));
+
+        return driver.findElements(account.locator()).isEmpty();
+    }
+
 }
