@@ -237,7 +237,18 @@ public class AccountsPage extends BasePage {
 
         return totalBalance;
     }
+    public BigDecimal getAccountBalance(String accountName) {
+        By balanceLocator = By.xpath(
+            "//tr[@data-testid='account-row']" +
+            "[.//*[@data-testid='account-row-name' and text()='"
+            + accountName +
+            "']]//*[@data-testid='account-row-balance']"
+        );
 
+        String balance = find(balanceLocator).getAttribute("data-balance");
+
+        return new BigDecimal(balance).setScale(2);
+    }
     //GET MASKED NUMBER
     public String getMaskedAccountNumber(String accountName) {
         By accountNumber = By.xpath(
