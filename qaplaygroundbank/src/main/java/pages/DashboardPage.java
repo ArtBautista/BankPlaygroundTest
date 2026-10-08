@@ -55,12 +55,32 @@ public class DashboardPage extends BasePage {
             return By.cssSelector("[data-testid='" + testId + "']");
         }
     }
+    public enum Sidebar {
+        DASHBOARD("sidebar-link-dashboard"),
+        ACCOUNTS("sidebar-link-accounts"),
+        TRANSFER("sidebar-link-transfer"),
+        SEND_MONEY("sidebar-link-send-money"),
+        BILL_PAY("sidebar-link-bill-pay"),
+        TRANSACTIONS("sidebar-link-transactions"),
+        APPLY_LOAN("sidebar-link-apply-loan"),
+        NOTIFICATION("sidebar-link-notification"),
+        PROFILE("sidebar-link-profile");
 
+        private final String testId;
+
+        Sidebar(String testId) {
+            this.testId = testId;
+        }
+
+        By locator() {
+            return By.cssSelector("[data-testid='" + testId + "']");
+        }
+    }
     public void clickQuickAction(QuickAction action) {
         click(action.locator());
     }
-    public void clickAccountsButton(){
-        click(By.cssSelector("[data-testid='sidebar-link-accounts']"));
+    public void clickSideBarButton(Sidebar action){
+        click(action.locator());
     }
     public boolean isPageTitleDisplayed(PageTitle title) {
         return isDisplayed(title.locator());
