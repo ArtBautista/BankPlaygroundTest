@@ -43,7 +43,7 @@ public class DashboardPage extends BasePage {
         SEND_MONEY("send-money-page-title"),
         BILL_PAY("bill-pay-page-title"),
         TRANSACTIONS("transactions-page-title"),
-        APPLY_LOAN("apply-loan-title");
+        APPLY_LOAN("apply-loan-page-title");
 
         private final String testId;
 
