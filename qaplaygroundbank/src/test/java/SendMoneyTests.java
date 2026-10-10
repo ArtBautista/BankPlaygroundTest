@@ -57,32 +57,18 @@ public class SendMoneyTests extends BaseTests{
     public void testInsufficientFundsValidation() {
 
         // Step 1: Select From Account and retrieve balance
-        BigDecimal balance = sendMoneyPage
-            .selectFromAccountAndGetBalance(
-                FromAccount.EVERYDAY_CHECKING
-            );
+        BigDecimal balance = sendMoneyPage.selectFromAccountAndGetBalance(FromAccount.EVERYDAY_CHECKING);
 
         // Step 2: Select existing payee
-        sendMoneyPage.selectPayeeAccount(
-            PayeeAccount.CHASE_BANK
-        );
+        sendMoneyPage.selectPayeeAccount(PayeeAccount.CHASE_BANK);
 
-        // Step 3: Generate amount greater than balance
-        BigDecimal insufficientAmount = balance.add(
-            new BigDecimal("100.00")
-        );
+        
+        BigDecimal insufficientAmount = balance.add(new BigDecimal("100.00"));
+        sendMoneyPage.enterSendMoneyAmount(insufficientAmount.toPlainString());
 
-        sendMoneyPage.enterSendMoneyAmount(
-            insufficientAmount.toPlainString()
-        );
-
-        // Step 4: Click Review & Send
-        sendMoneyPage.clickSendMoneyButtons(
-            SendMoneyButtons.REVIEW_SENDMONEY_BUTTON
-        );
-        sendMoneyPage.clickSendMoneyButtons(
-            SendMoneyButtons.CONFIRM_SENDMONEY_BUTTON
-        );
+        
+        sendMoneyPage.clickSendMoneyButtons(SendMoneyButtons.REVIEW_SENDMONEY_BUTTON);
+        sendMoneyPage.clickSendMoneyButtons(SendMoneyButtons.CONFIRM_SENDMONEY_BUTTON);
 
         // Step 5: Assert insufficient funds error
         Assert.assertTrue(
