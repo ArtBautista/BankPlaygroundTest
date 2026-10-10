@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 
 import static base.BasePage.delay;
 import pages.AccountsPage;
+import pages.BillPayPage;
 import pages.DashboardPage;
 import pages.LoginPage;
 import pages.SendMoneyPage;
@@ -24,6 +25,7 @@ public class BaseTests {
     protected AccountsPage accountsPage;
     protected TransferPage transferPage;
     protected SendMoneyPage sendMoneyPage;
+    protected BillPayPage billPayPage;
     private String BASE_URL = "https://qaplayground.com/bank/login";
 
     @BeforeClass 
@@ -47,6 +49,7 @@ public class BaseTests {
         accountsPage = new AccountsPage();
         transferPage = new TransferPage();
         sendMoneyPage = new SendMoneyPage();
+        billPayPage = new BillPayPage();
     }
     
     @AfterClass 
