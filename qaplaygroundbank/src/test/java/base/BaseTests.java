@@ -9,10 +9,12 @@ import org.testng.annotations.BeforeMethod;
 
 import static base.BasePage.delay;
 import pages.AccountsPage;
+import pages.ApplyLoanPage;
 import pages.BillPayPage;
 import pages.DashboardPage;
 import pages.LoginPage;
 import pages.SendMoneyPage;
+import pages.TransactionsPage;
 import pages.TransferPage;
 import static utilities.Utility.setUtilityDriver;
 
@@ -26,6 +28,8 @@ public class BaseTests {
     protected TransferPage transferPage;
     protected SendMoneyPage sendMoneyPage;
     protected BillPayPage billPayPage;
+    protected TransactionsPage transactionsPage;
+    protected ApplyLoanPage applyLoanPage;
     private String BASE_URL = "https://qaplayground.com/bank/login";
 
     @BeforeClass 
@@ -50,6 +54,8 @@ public class BaseTests {
         transferPage = new TransferPage();
         sendMoneyPage = new SendMoneyPage();
         billPayPage = new BillPayPage();
+        transactionsPage = new TransactionsPage();
+        applyLoanPage = new ApplyLoanPage();
     }
     
     @AfterClass 
