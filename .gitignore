@@ -1,0 +1,11 @@
+# Maven output
+**/target/
+
+# Local IDE configuration
+.idea/
+*.iml
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db

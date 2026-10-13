@@ -1,0 +1,69 @@
+name: Banking UI CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: banking-ui-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  banking-tests:
+    name: Build and test (Chrome)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: qaplaygroundbank
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21 and Maven cache
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: qaplaygroundbank/pom.xml
+
+      - name: Show tool versions
+        run: |
+          java -version
+          mvn -version
+          google-chrome --version
+
+      - name: Build and run Selenium tests
+        run: mvn --batch-mode --no-transfer-progress clean verify -Dheadless=true
+
+      - name: Upload test reports and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            qaplaygroundbank/target/surefire-reports/
+            qaplaygroundbank/target/screenshots/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Deliver tested automation framework
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: banking-framework-${{ github.sha }}
+          path: |
+            qaplaygroundbank/target/*.jar
+            qaplaygroundbank/pom.xml
+            qaplaygroundbank/src/
+            README.md
+            docs/CI_CD.md
+          if-no-files-found: error
+          retention-days: 14

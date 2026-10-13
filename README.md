@@ -31,7 +31,7 @@ The repository contains eight test classes. The scenarios below describe the che
 | Design pattern | Page Object Model with shared base classes |
 | Assertions | TestNG assertions, `SoftAssert`, and `BigDecimal` comparisons |
 
-Dependency versions come from [`qaplaygroundbank/pom.xml`](qaplaygroundbank/pom.xml). The POM currently does not pin the Java compiler level or Maven plugin versions.
+Dependency versions come from [`qaplaygroundbank/pom.xml`](qaplaygroundbank/pom.xml). The POM pins Java 21 and compiler, Surefire, and JAR plugin versions.
 
 ## Framework design
 
@@ -43,7 +43,7 @@ Dependency versions come from [`qaplaygroundbank/pom.xml`](qaplaygroundbank/pom.
 - **Data-driven checks:** dashboard quick actions use a TestNG `@DataProvider`.
 - **Debugging:** selected tests print balances, table headers, transaction IDs, and other diagnostic values.
 
-The driver and wait are static in `BasePage`, so the current implementation should run sequentially. Explicit waits are used alongside a fixed-delay helper, including a five-second teardown delay.
+The driver and wait are static in `BasePage`, so the current implementation should run sequentially. A fixed-delay helper remains available in `BasePage`; teardown runs without a fixed delay. Failed tests capture screenshots when a browser session is available.
 
 ## Repository structure
 
@@ -89,26 +89,34 @@ git clone https://github.com/ArtBautista/BankPlaygroundTest.git
 cd BankPlaygroundTest/qaplaygroundbank
 ```
 
-### Current build prerequisite
-
-`BaseTests.java` imports `utilities.Utility.setUtilityDriver` and calls `setUtilityDriver()`, but the corresponding `utilities.Utility` source is absent from this checkout. Restore that utility or remove the obsolete import and call before attempting a clean build. Existing files under `target/` do not establish that a fresh checkout compiles.
-
 ### Run tests
 
-After resolving the missing utility, run these commands from `qaplaygroundbank/`. The compiler properties explicitly select Java 21 because the POM does not set a compiler level. The test selector explicitly includes the repository's `*Tests` class names.
+Run these commands from `qaplaygroundbank/`:
 
 ```bash
-# Run all test classes
-mvn clean test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest="*Tests"
+# Build, run all eight test classes, and package the framework
+mvn clean verify
 
-# Run one module
-mvn test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest=TransactionsTests
+# Match CI with headless Chrome
+mvn clean verify -Dheadless=true
 
-# Run one test method
-mvn test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest=AccountsTests#testAddNewAccount
+# Run one module or test method
+mvn test -Dtest=TransactionsTests
+mvn test -Dtest=AccountsTests#testAddNewAccount
 ```
 
-These are execution instructions, not verified passing results. The current browser setup opens a visible Chrome window; there is no headless command-line option wired into `BaseTests`.
+The Java release and test discovery pattern are configured in the POM. Override the login URL with `-DbaseUrl=https://qaplayground.com/bank/login` when needed.
+
+## CI/CD with GitHub Actions
+
+[Banking UI CI](https://github.com/ArtBautista/BankPlaygroundTest/actions/workflows/banking-tests.yml) runs on pushes to `main`, pull requests targeting `main`, and manual runs. It builds with Java 21 and runs Selenium tests sequentially in headless Chrome.
+
+- Test failures fail the workflow; available reports and screenshots are uploaded even after failures.
+- Successful `main` runs deliver a versioned automation bundle containing JARs, source, the POM, and documentation.
+- Artifacts are kept for 14 days. This delivers the test framework; the external banking demo is not deployed by this repository.
+- No secrets are needed for the existing demo accounts. Branch protection must be configured separately to require the CI check before merging.
+
+See [the step-by-step CI/CD guide](docs/CI_CD.md) for manual runs, artifact downloads, local commands, and troubleshooting.
 
 ### Demo users
 
@@ -129,8 +137,7 @@ After a Maven test run, inspect `qaplaygroundbank/target/surefire-reports/` for 
 
 | Symptom | What to check |
 | --- | --- |
-| `package utilities does not exist` | Resolve the missing `Utility` dependency described above. |
-| Unsupported source/target level | Confirm `mvn -version` uses JDK 21 and include the compiler properties shown above. |
+| Unsupported source/target level | Confirm `mvn -version` uses JDK 21 and use JDK 21 as configured in the POM. |
 | Chrome fails to start | Check Chrome installation, driver compatibility, network access, and availability of a graphical session. |
 | Element timeout or failed assertion | Check demo-site availability, the active user, locator changes, and the expected test data. |
 | Pagination returns no IDs | Check that rows are loaded and that the page object's row/ID selectors match the current DOM. |
@@ -146,13 +153,10 @@ After a Maven test run, inspect `qaplaygroundbank/target/surefire-reports/` for 
 
 ## Planned improvements
 
-- Restore a reproducible clean build and pin compiler and test-runner plugin versions.
-- Add configurable base URL, browser options, and headless execution.
-- Add a CI workflow to execute tests and publish reports; no CI/CD workflow is currently committed.
-- Capture screenshots and browser diagnostics on failure.
+- Add browser console diagnostics alongside failure screenshots.
 - Replace fixed delays with condition-based waits.
 - Isolate driver state before enabling parallel execution.
-- Keep generated `target/` output out of version control.
+- Remove historical tracked `target/` files; `.gitignore` prevents new untracked build output from being added.
 
 ## License
 
