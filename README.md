@@ -1,149 +1,163 @@
-# Banking UI Automation with Selenium
+# BankPlaygroundTest
 
-A hands-on practice project for **UI / end-to-end test automation** using **Selenium WebDriver**, **Java**, and **TestNG**, built with the **Page Object Model (POM)**.
+A banking UI test automation project built with **Java, Selenium WebDriver, TestNG, and Maven**. The framework uses the **Page Object Model (POM)** to separate browser interactions from test scenarios and assertions.
 
-The system under test is [QA Playground Bank](https://qaplayground.com/bank/login), a realistic banking journey with forms, validations, and account workflows. It is a stable target, so it's ideal for practicing automation without flaky third-party sites.
+Tests exercise [QA Playground Bank](https://qaplayground.com/bank/login), including account management, transfers, payments, loan applications, and transaction history. This repository demonstrates positive and negative testing, financial value assertions, data-driven navigation checks, and reusable page objects.
 
----
+## Test coverage
 
-## What's covered
+The repository contains eight test classes. The scenarios below describe the checks in source code, not a claim that the current suite passes.
 
-| Area | Scenarios |
-|------|-----------|
-| **Login** | Valid login, session reset between tests |
-| **Dashboard** | Welcome message, quick actions (transfer, send money, bill pay, apply loan, transactions), notifications, logout |
-| **Accounts** | Header display, list vs. detail value comparison, add account, delete account (cancel / confirm) |
-| **Transfer** | Sidebar navigation, cancel transfer |
+| Module | Scenarios in the test suite |
+| --- | --- |
+| Login | Valid credentials, invalid username/password, and empty fields |
+| Dashboard | Welcome message, net worth versus total account balances, quick-action navigation, notifications navigation, and logout |
+| Accounts | Account list and details, overdraft and frozen-account alerts, account creation, and delete dialog/cancel/confirm behavior |
+| Transfer | Form visibility, same-account restrictions, insufficient funds, required fields, transfer confirmation, balance updates, date selection, and cancellation |
+| Send Money | Form visibility, entering payment details, payee account-number validation, successful sending, insufficient funds, and frozen-account restrictions |
+| Bill Pay | Form fields, biller search and selection, adding a biller, successful payment, and insufficient funds |
+| Apply Loan | Form fields, maximum amount validation, submission and history verification, frozen-account restrictions, history pagination, and a known total mismatch for the error-user scenario |
+| Transactions | Table headers, account filtering, description search, date sorting, pagination, empty results, and debit filtering |
 
-> Coverage grows as new pages and flows are added.
+## Technology
 
----
+| Component | Implementation |
+| --- | --- |
+| Language | Java; JDK 21 is the suggested local setup |
+| Browser automation | Selenium WebDriver `4.48.0` |
+| Test framework | TestNG `7.12.0` |
+| Build tool | Maven |
+| Browser | Google Chrome through `ChromeDriver` |
+| Design pattern | Page Object Model with shared base classes |
+| Assertions | TestNG assertions, `SoftAssert`, and `BigDecimal` comparisons |
 
-## Tech stack
+Dependency versions come from [`qaplaygroundbank/pom.xml`](qaplaygroundbank/pom.xml). The POM currently does not pin the Java compiler level or Maven plugin versions.
 
-- **Java 21**
-- **Selenium WebDriver 4.x**
-- **TestNG** (annotations, `@DataProvider`, assertions)
-- **Maven** (dependency management and test runs)
-- **Google Chrome** with ChromeDriver (Selenium Manager resolves it automatically)
+## Framework design
 
----
+- **Page objects:** each banking module exposes actions and checks through a dedicated page class.
+- **Shared browser helpers:** `BasePage` provides element lookup, text entry, clicks, visibility checks, and URL checks, using a 20-second explicit wait.
+- **Locators and enums:** page classes use `data-testid` attributes, IDs, and other selectors; enums group related controls and account choices.
+- **Session reset:** before each test method, `BaseTests` visits the login page, clears cookies and local/session storage, reloads the page, and initializes page objects.
+- **Browser lifecycle:** a Chrome instance is created per test class and closed after that class finishes.
+- **Data-driven checks:** dashboard quick actions use a TestNG `@DataProvider`.
+- **Debugging:** selected tests print balances, table headers, transaction IDs, and other diagnostic values.
 
-## Project structure
+The driver and wait are static in `BasePage`, so the current implementation should run sequentially. Explicit waits are used alongside a fixed-delay helper, including a five-second teardown delay.
 
+## Repository structure
+
+```text
+BankPlaygroundTest/
+├── README.md
+├── LICENSE
+└── qaplaygroundbank/
+    ├── pom.xml
+    └── src/
+        ├── main/java/
+        │   ├── base/BasePage.java
+        │   └── pages/
+        │       ├── LoginPage.java
+        │       ├── DashboardPage.java
+        │       ├── AccountsPage.java
+        │       ├── TransferPage.java
+        │       ├── SendMoneyPage.java
+        │       ├── BillPayPage.java
+        │       ├── ApplyLoanPage.java
+        │       └── TransactionsPage.java
+        └── test/java/
+            ├── base/BaseTests.java
+            ├── LoginTests.java
+            ├── DashboardTests.java
+            ├── AccountsTests.java
+            ├── TransferTests.java
+            ├── SendMoneyTests.java
+            ├── BillPayTests.java
+            ├── ApplyLoanTests.java
+            └── TransactionsTests.java
 ```
-src
-├── main/java
-│   ├── base
-│   │   └── BasePage.java        # Shared helpers: click, set, find, isDisplayed, waits
-│   └── pages
-│       ├── LoginPage.java
-│       ├── DashboardPage.java
-│       ├── AccountsPage.java
-│       └── TransferPage.java
-└── test/java
-    ├── base
-    │   └── BaseTests.java       # Driver lifecycle + page object setup
-    ├── DashboardTests.java
-    ├── AccountsTests.java
-    └── TransferTests.java
-```
 
-Adjust the tree above if your folders differ.
+## Local setup
 
----
-
-## Design approach
-
-- **Page Object Model:** each page class exposes user actions and checks; tests contain only the flow and the assertions.
-- **Stable locators:** elements are located through `data-testid` attributes (`By.cssSelector("[data-testid='...']")`) rather than brittle XPath or auto-generated IDs.
-- **Enums for locators:** related elements are grouped in enums (for example `AccountButtons`, `QuickAction`) so tests read clearly and locators live in one place.
-- **Explicit waits:** `BasePage` wraps `WebDriverWait` so tests don't rely on `Thread.sleep`.
-- **Test isolation:** before every test, `BaseTests` clears cookies, `localStorage`, and `sessionStorage` and reloads the login page, so each test starts logged out regardless of run order.
-- **Data-driven tests:** `@DataProvider` is used where the same check repeats across inputs (quick actions, account fields).
-
----
-
-## Getting started
-
-### Prerequisites
-
-- JDK 21 (or a version matching your `pom.xml`)
-- Maven 3.9+
-- Google Chrome (latest)
-
-### Clone and run
+Install JDK 21, Maven, and Google Chrome. Ensure Java and Maven are on your `PATH` and that the machine can access the demo application and download Maven/browser-driver dependencies.
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
-mvn clean test
+java -version
+mvn -version
+
+git clone https://github.com/ArtBautista/BankPlaygroundTest.git
+cd BankPlaygroundTest/qaplaygroundbank
 ```
 
-### Run a single class or method
+### Current build prerequisite
+
+`BaseTests.java` imports `utilities.Utility.setUtilityDriver` and calls `setUtilityDriver()`, but the corresponding `utilities.Utility` source is absent from this checkout. Restore that utility or remove the obsolete import and call before attempting a clean build. Existing files under `target/` do not establish that a fresh checkout compiles.
+
+### Run tests
+
+After resolving the missing utility, run these commands from `qaplaygroundbank/`. The compiler properties explicitly select Java 21 because the POM does not set a compiler level. The test selector explicitly includes the repository's `*Tests` class names.
 
 ```bash
-mvn test -Dtest=DashboardTests
-mvn test -Dtest=AccountsTests#testAddNewAccount
+# Run all test classes
+mvn clean test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest="*Tests"
+
+# Run one module
+mvn test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest=TransactionsTests
+
+# Run one test method
+mvn test -Dmaven.compiler.source=21 -Dmaven.compiler.target=21 -Dtest=AccountsTests#testAddNewAccount
 ```
 
-### Test credentials
+These are execution instructions, not verified passing results. The current browser setup opens a visible Chrome window; there is no headless command-line option wired into `BaseTests`.
 
-The demo site provides a standard user for practice:
+### Demo users
 
-| Username | Password |
-|----------|----------|
-| `standard_user` | `bank_sauce` |
+The tests use the following practice accounts with password `bank_sauce`:
 
----
+| Username | Usage in this suite |
+| --- | --- |
+| `standard_user` | Standard banking workflows |
+| `overdraft_user` | Overdraft alert checks |
+| `frozen_user` | Frozen-account restrictions |
+| `error_user` | Known loan-history total mismatch |
 
-## Writing a new test
+The error-user loan test deliberately asserts that the displayed and calculated totals differ. A passing result for that test confirms the demo defect is reproduced.
 
-1. Create a page class in `pages/` that extends `BasePage`.
-2. Add locators (or an enum of `data-testid` values) and action methods.
-3. Declare and initialize the page in `BaseTests` (`goToLoginPage()`).
-4. Create a test class extending `BaseTests` and log in inside `@BeforeMethod`.
+## Results and troubleshooting
 
-```java
-public class TransferTests extends BaseTests {
+After a Maven test run, inspect `qaplaygroundbank/target/surefire-reports/` for generated test results and the console for assertion messages and debug output. Previously committed reports may be stale; use the output of your own run.
 
-    @BeforeMethod
-    public void loginAsStandardUser() {
-        loginPage.logIntoApplication("standard_user", "bank_sauce");
-        transferPage.clickTransferButtons(TransferButtons.SIDEBAR_TRANSFER_BUTTON);
-    }
+| Symptom | What to check |
+| --- | --- |
+| `package utilities does not exist` | Resolve the missing `Utility` dependency described above. |
+| Unsupported source/target level | Confirm `mvn -version` uses JDK 21 and include the compiler properties shown above. |
+| Chrome fails to start | Check Chrome installation, driver compatibility, network access, and availability of a graphical session. |
+| Element timeout or failed assertion | Check demo-site availability, the active user, locator changes, and the expected test data. |
+| Pagination returns no IDs | Check that rows are loaded and that the page object's row/ID selectors match the current DOM. |
 
-    @Test
-    public void testCancelTransferButton() {
-        transferPage.clickTransferButtons(TransferButtons.CANCEL_TRANSFER_BUTTON);
-        // assert the expected outcome here
-    }
-}
-```
+## Adding coverage
 
----
+1. Add or extend a page object under `src/main/java/pages/` and reuse `BasePage` helpers.
+2. Initialize any new page object in `BaseTests.goToLoginPage()`.
+3. Add a test class extending `BaseTests`, or extend an existing module's test class.
+4. Set up the appropriate user and navigate to the module in `@BeforeMethod`.
+5. Assert an observable outcome, such as a validation message, updated balance, or history entry.
+6. Run the focused test and update the coverage table when adding a new scenario category.
 
-## Ideas to practice next
+## Planned improvements
 
-- Login validation: wrong password, empty fields, locked-out user
-- Form validation messages on transfer, bill pay, and loan application
-- Full transfer flow: fill, review, confirm, and verify the transaction history
-- Cross-page checks: balance changes after a transfer
-- Screenshots on failure via a TestNG listener
-- HTML reports (Allure or ExtentReports)
-- Parallel execution with a `ThreadLocal<WebDriver>`
-- CI with GitHub Actions running headless Chrome
+- Restore a reproducible clean build and pin compiler and test-runner plugin versions.
+- Add configurable base URL, browser options, and headless execution.
+- Add a CI workflow to execute tests and publish reports; no CI/CD workflow is currently committed.
+- Capture screenshots and browser diagnostics on failure.
+- Replace fixed delays with condition-based waits.
+- Isolate driver state before enabling parallel execution.
+- Keep generated `target/` output out of version control.
 
----
+## License
 
-## Notes
-
-- Tests hit a live public site. If the site is slow or down, failures may not be caused by your code.
-- Some tests change data (for example deleting an account). Prefer creating the data a test needs rather than depending on seeded records.
-- This project is for learning and practice purposes only.
-
----
+See [LICENSE](LICENSE) for the GNU General Public License, version 3.
 
 ## Acknowledgements
 
-Thanks to [QA Playground](https://qaplayground.com) for providing a free, realistic practice environment.
+[QA Playground](https://qaplayground.com) provides the banking application used by this practice project.
