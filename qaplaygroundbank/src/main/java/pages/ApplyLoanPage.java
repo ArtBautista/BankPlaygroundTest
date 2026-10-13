@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,7 +22,8 @@ public class ApplyLoanPage extends BasePage{
         APPLY_LOAN_BUTTON("open-apply-loan-btn"),
         RESET_DATA_BUTTON("reset-data-btn"),
         SEARCH_BUTTON("loan-search-input"),
-
+        
+        NETX_PAGE_BUTTON("loan-history-pagination-next"),
         CONFIRM_BUTTON("confirm-loan-btn"),
         BACK_BUTTON("cancel-confirm-loan-btn"),
         SUCCESSFUL("loan-success-heading"),
@@ -343,4 +345,41 @@ public BigDecimal getMostRecentLoanAmount() {
 }
 
     
+public int getVisibleLoanHistoryRowCount() {
+    return (int) getAllLoanHistoryRows().stream()
+        .filter(WebElement::isDisplayed)
+        .count();
+}
+
+public void scrollToLoanHistory() {
+    WebElement historyRow = find(
+        By.cssSelector("[data-testid='loan-history-row']")
+    );
+
+    ((JavascriptExecutor) driver).executeScript(
+        "arguments[0].scrollIntoView({block: 'center'});",
+        historyRow
+    );
+}
+
+
+
+public boolean waitForLoanHistoryRowCount(int expectedCount) {
+    WebDriverWait wait = new WebDriverWait(
+        driver,
+        Duration.ofSeconds(10)
+    );
+
+    return wait.until(webDriver ->
+        getVisibleLoanHistoryRowCount() == expectedCount
+    );
+}
+
+public List<String> getVisibleLoanHistoryIds() {
+    return getAllLoanHistoryRows().stream()
+        .filter(WebElement::isDisplayed)
+        .map(row -> row.getDomAttribute("data-loan-id"))
+        .collect(java.util.stream.Collectors.toList());
+}
+
 }
