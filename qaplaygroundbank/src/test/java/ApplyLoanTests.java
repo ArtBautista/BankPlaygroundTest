@@ -1,7 +1,10 @@
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.List;
 
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -165,4 +168,50 @@ public class ApplyLoanTests extends BaseTests{
         );
     
     }
+    
+@Test
+public void testLoanHistoryPagination() {
+
+    applyLoanPage.scrollToLoanHistory();
+
+    Assert.assertTrue(
+        applyLoanPage.waitForLoanHistoryRowCount(5),
+        "Expected 5 rows on the first page."
+    );
+
+    List<String> firstPageLoanIds =
+        applyLoanPage.getVisibleLoanHistoryIds();
+
+    applyLoanPage.clickApplyLoanElement(ApplyLoanElement.NETX_PAGE_BUTTON);
+
+    WebDriverWait wait = new WebDriverWait(
+        driver,
+        Duration.ofSeconds(10)
+    );
+
+    wait.until(webDriver -> {
+        List<String> secondPageLoanIds =
+            applyLoanPage.getVisibleLoanHistoryIds();
+
+        return !secondPageLoanIds.isEmpty()
+            && !secondPageLoanIds.equals(firstPageLoanIds);
+    });
+
+    List<String> secondPageLoanIds =
+        applyLoanPage.getVisibleLoanHistoryIds();
+
+    Assert.assertTrue(
+        secondPageLoanIds.size() > 0,
+        "Page 2 should display remaining loans."
+    );
+
+    Assert.assertTrue(
+        java.util.Collections.disjoint(
+            firstPageLoanIds,
+            secondPageLoanIds
+        ),
+        "Page 2 contains duplicate loans from page 1."
+    );
+}
+
 }
