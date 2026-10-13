@@ -66,7 +66,7 @@ public class TransferTests extends BaseTests{
             transferPage.isAccountListed(FromAccount.HIGH_YIELD_SAVINGS, ToAccount.EVERYDAY_CHECKING, "250.00", today),
             "Transfer summary did not match the entered details. Rows: " + transferSummary
         );
-         Assert.assertEquals(
+        Assert.assertEquals(
             transferPage.getTransferSuccessMessage(),
             "Transfer Successful",
             "Transfer success confirmation message does not match."
